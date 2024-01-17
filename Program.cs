@@ -1,5 +1,9 @@
 ﻿using studenten_voortgang_applicatie.Controllers;
+using studenten_voortgang_applicatie.Models;
 using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
+using System.Security.Authentication;
 
 namespace studenten_voortgang_applicatie
 {
@@ -18,10 +22,34 @@ namespace studenten_voortgang_applicatie
 
         public void Run()
         {
-            // login
-            // loop main menu
+            // load data from disk
 
-            Console.WriteLine("Hello World");
+            // debug data
+            HashSet<Person> persons = new HashSet<Person>();
+            persons.Add(new Person("Jimmy", "Tak", "jtak", "1234"));
+
+            // login
+            LoginController login = new LoginController(persons);
+            try
+            {
+                Person user = login.Authenticate();
+                Console.WriteLine("Welcome");
+
+            } catch (AuthenticationException e)
+            {
+                Console.WriteLine("nope");
+                //exit();
+            }
+            //login.deconstructor();
+
+            // loop main menu
+            //MenuController menu = new MenuController(user);
+            //enu.Show();
+            
+
+            // end
+
+            
             Console.ReadKey();
         }
     }

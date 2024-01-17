@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Controllers
 {
-    internal class Login
+    internal class MenuController
     {
-        public Login() { }
-
-        
+        // delegates methods in menu opties?
     }
 }
