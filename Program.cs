@@ -9,10 +9,10 @@ namespace studenten_voortgang_applicatie
 {
     internal class Program
     {
+        
         static void Main(string[] args)
         {
-            Program StudentenVoortgangApplicatie = new Program();
-            StudentenVoortgangApplicatie.Run();
+            new Program().Run();
         }
 
         public Program()
@@ -22,11 +22,28 @@ namespace studenten_voortgang_applicatie
 
         public void Run()
         {
+
+             
+
+            Student s = new Student()
+            {
+                FirstName = "Jan",
+                LastName = "Jansen",
+                StudentNumber = "1"
+   
+            };
+
+            User u = new() { Username = "jan", Password = "123" };
+            s.User = u;
+
+     
+
+            
             // load data from disk
 
             // debug data
             HashSet<Person> persons = new HashSet<Person>();
-            persons.Add(new Person("Jimmy", "Tak", "jtak", "1234"));
+            persons.Add(s);
 
             // login
             LoginController login = new LoginController(persons);
@@ -48,7 +65,7 @@ namespace studenten_voortgang_applicatie
             
 
             // end
-
+            
             
             Console.ReadKey();
         }

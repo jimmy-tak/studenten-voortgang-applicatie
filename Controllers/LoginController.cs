@@ -11,10 +11,10 @@ namespace studenten_voortgang_applicatie.Controllers
 {
     internal class LoginController
     {
-        private HashSet<Person> users;
+        private readonly HashSet<Person> _users;
         public LoginController(HashSet<Person> users) 
         {
-            this.users = users;
+            this._users = users;
         }
 
         public Person Authenticate()
@@ -25,8 +25,20 @@ namespace studenten_voortgang_applicatie.Controllers
             Console.Write("password: ");
             password = Console.ReadLine();
 
-            // linq functie voor zoeken gebruiker
+            var founduser = from u in _users
+                            where u.Username == username
+                            select u;
+
+            if(founduser.Count() == 1 )
+            {
+                Console.WriteLine(founduser.First().FirstName);
+            }
+            else
+            {
+                return null;
+            }
             return null;
+
         }
         
     }

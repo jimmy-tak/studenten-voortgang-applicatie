@@ -4,29 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using studenten_voortgang_applicatie.Enums;
+
 namespace studenten_voortgang_applicatie.Models
 {
+
     internal class Person
     {
+        // basic personal information
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
-        // public Role role
+        // optional user account associated with person
+        public User? User;
 
-        // only for users
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-
-
-        private const int minPasswordLength = 4;
-
-        public Person(string firstName, string lastName, string username, string password)
+        public bool HasAccount()
         {
-            FirstName = firstName;
-            LastName = lastName;
-            Password = password;
-            Username = username;
+            return User != null;
         }
+
 
     }
 }
