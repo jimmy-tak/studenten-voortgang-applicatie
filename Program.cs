@@ -29,7 +29,7 @@ namespace studenten_voortgang_applicatie
 
             Person user = loginController.Authenticate();
 
-            if(user == null)
+            //if(user == null)
 
 
 
@@ -47,6 +47,10 @@ namespace studenten_voortgang_applicatie
             School school = new School("Curio", "25LX");
             Employee employee = new Employee("Jimmy", "Tak");
             employee.Username = "jimmy";
+            employee.Password = "1234"; // no try catch in sample data
+            school.AddEmployee(employee);
+
+            return school;
 
         }
         private void CreateMenus()

@@ -26,8 +26,3 @@ namespace studenten_voortgang_applicatie.Models
 }
 
 
-/*
- * 
- * manage courses
- * manage students
- * manage employees

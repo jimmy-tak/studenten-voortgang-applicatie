@@ -20,9 +20,13 @@ namespace studenten_voortgang_applicatie.Models
         {
             Name = name;
             BrinNummer = brinNummer;
+            Employees = new HashSet<Employee>();
         }
 
-        public void AddEmployee
+        public void AddEmployee(Employee employee)
+        {
+            Employees.Add(employee);
+        }
 
     }
 }

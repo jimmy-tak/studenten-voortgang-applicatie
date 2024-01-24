@@ -29,7 +29,11 @@ namespace studenten_voortgang_applicatie.Models
             }
             set 
             {
-                if (String.IsNullOrWhiteSpace(value))
+                if(value == null)  // allow account to be deleted
+                {
+                    _username = null;
+                }
+                else if (String.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException("Username must contain readable characters");
                 }
@@ -49,7 +53,7 @@ namespace studenten_voortgang_applicatie.Models
         {
             set
             {
-                if (value.Length < MinPasswordLength)
+                if (value != null && value.Length < MinPasswordLength)
                 {
                     throw new ArgumentException($"Password must be at least {MinPasswordLength} characters long");
                 }
@@ -60,6 +64,13 @@ namespace studenten_voortgang_applicatie.Models
             }
         }        
         private List<UserRoles> _roles;
+        public List<UserRoles> Roles
+        {
+            get
+            {
+                return _roles;
+            }
+        }
 
         public Person(string firstName, string lastName)
         {
@@ -70,11 +81,11 @@ namespace studenten_voortgang_applicatie.Models
 
         public bool HasAccount()
         {
-            return Username == null;
+            return Username != null;
         }
 
-
-        public bool IsAllowedLogin(string username, string password)
+        // return true if person has username and both username and password match
+        public bool ValidateCredentials(string username, string password)
         {
             if (_password == null) return false;
             return this.Username == username && _password == password;
@@ -89,9 +100,6 @@ namespace studenten_voortgang_applicatie.Models
             return _roles.Contains(role);
         }
 
-        public List<UserRoles> GetRoles()
-        {
-            return _roles;
-        }
+
     }
 }
