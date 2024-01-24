@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
 {
-    internal class Student : Person
+    internal class Guardian : Person
     {
-        public string StudentNumber { get; set; }
+        private HashSet<Student> children;
 
-        public Student(string firstName, string lastName) : base(firstName, lastName) {
-            addRole(UserRoles.Student);
+        public Guardian(string firstName, string lastName) : base(firstName, lastName)
+        {
+            addRole(UserRoles.Guardian);
         }
-
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
 {
-    internal class Student : Person
+    internal class Employee : Person
     {
-        public string StudentNumber { get; set; }
 
-        public Student(string firstName, string lastName) : base(firstName, lastName) {
-            addRole(UserRoles.Student);
+        public Employee(string firstName, string lastName) : base (firstName, lastName)
+        {
+            addRole(UserRoles.Employee);
         }
 
     }

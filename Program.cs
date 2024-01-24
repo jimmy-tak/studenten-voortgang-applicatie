@@ -1,5 +1,6 @@
-﻿using studenten_voortgang_applicatie.Controllers;
-using studenten_voortgang_applicatie.Models;
+﻿using studenten_voortgang_applicatie.Models;
+using studenten_voortgang_applicatie.Views;
+using studenten_voortgang_applicatie.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
@@ -22,52 +23,37 @@ namespace studenten_voortgang_applicatie
 
         public void Run()
         {
+            School school = CreateSampleData();
 
-             
+            LoginController loginController = new LoginController(new LoginView(), school);
 
-            Student s = new Student()
-            {
-                FirstName = "Jan",
-                LastName = "Jansen",
-                StudentNumber = "1"
-   
-            };
+            Person user = loginController.Authenticate();
 
-            User u = new() { Username = "jan", Password = "123" };
-            s.User = u;
+            if(user == null)
 
-     
 
-            
-            // load data from disk
 
-            // debug data
-            HashSet<Person> persons = new HashSet<Person>();
-            persons.Add(s);
+            //Menu mainMenu = new Menu("Hoofdmenu");
 
-            // login
-            LoginController login = new LoginController(persons);
-            try
-            {
-                Person user = login.Authenticate();
-                Console.WriteLine("Welcome");
+            //MenuController menuController = new MenuController();
+            //MenuController.DisplayMenu(mainMenu, user);
 
-            } catch (AuthenticationException e)
-            {
-                Console.WriteLine("nope");
-                //exit();
-            }
-            //login.deconstructor();
 
-            // loop main menu
-            //MenuController menu = new MenuController(user);
-            //enu.Show();
-            
-
-            // end
-            
-            
             Console.ReadKey();
         }
+
+        private School CreateSampleData()
+        {
+            School school = new School("Curio", "25LX");
+            Employee employee = new Employee("Jimmy", "Tak");
+            employee.Username = "jimmy";
+
+        }
+        private void CreateMenus()
+        {
+
+        }
+
+
     }
 }

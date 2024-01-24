@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Enums
 {
-    enum Roles
+    enum UserRoles
     {
-        student,
-        teacher,
-        administrator
+        Student,
+        Teacher,
+        Employee,
+        Guardian,
+        Administrator
     }
 }

@@ -12,6 +12,8 @@ namespace studenten_voortgang_applicatie.Models
         public string Description { get; set; }
         public string Code {  get; set; }
 
+        public int Seats { get; set; }
+
         // set containing enrolled students
         private HashSet<Student> students;
 
