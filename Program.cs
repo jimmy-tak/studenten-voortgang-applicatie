@@ -25,20 +25,19 @@ namespace studenten_voortgang_applicatie
         {
             School school = CreateSampleData();
 
-            LoginController loginController = new LoginController(new LoginView(), school);
+            Person loggedOnUser = new LoginController(new LoginView(), school).Authenticate();
 
-            Person user = loginController.Authenticate();
-
-            //if(user == null)
-
-
-
-            //Menu mainMenu = new Menu("Hoofdmenu");
-
-            //MenuController menuController = new MenuController();
-            //MenuController.DisplayMenu(mainMenu, user);
-
-
+            if(loggedOnUser != null)
+            {
+                Console.Clear();
+                Console.WriteLine($"Welcome {loggedOnUser.FullName}");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Sorry, you're not allowed to log on");
+            }
+            
             Console.ReadKey();
         }
 
@@ -48,6 +47,7 @@ namespace studenten_voortgang_applicatie
             Employee employee = new Employee("Jimmy", "Tak");
             employee.Username = "jimmy";
             employee.Password = "1234"; // no try catch in sample data
+            employee.EmployeeNumber = "1";
             school.AddEmployee(employee);
 
             return school;

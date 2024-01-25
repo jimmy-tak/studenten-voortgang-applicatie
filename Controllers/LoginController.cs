@@ -26,21 +26,21 @@ namespace studenten_voortgang_applicatie.Controllers
         public Person Authenticate()
         {
             (string username, string password) = _loginView.GetCredentials();
-/*
-            var users = from user in _school.Users
-                        where user.Username == username
-                        select user;
 
-            if(users.Count() == 1 )
-            {
-                Console.WriteLine(users.First());
+            // Linq
+            IEnumerable<Person> foundUser = from user in _school.Users
+                                            where user.Username == username
+                                            select user;
+            
+            if(foundUser.Count() == 1 && foundUser.First().ValidateCredential(password))
+            {                
+                return foundUser.First();
             }
             else
             {
+                // login failed
                 return null;
-            }
-*/
-            return null;
+            }           
 
         }
         

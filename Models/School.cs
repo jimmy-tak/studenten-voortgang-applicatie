@@ -16,11 +16,25 @@ namespace studenten_voortgang_applicatie.Models
         HashSet<Employee> Employees { get; set; }
         HashSet<Course> Courses { get; set; }
 
+        public HashSet<Person> Users
+        {
+            get
+            {
+                HashSet<Person> allUsers = new HashSet<Person>();
+                allUsers.UnionWith(Employees); // polymorphism?
+                allUsers.UnionWith(Students);
+                return allUsers;
+            }
+        }
+
+
         public School(string name, string brinNummer) 
         {
             Name = name;
             BrinNummer = brinNummer;
+            Students = new HashSet<Student>();
             Employees = new HashSet<Employee>();
+
         }
 
         public void AddEmployee(Employee employee)

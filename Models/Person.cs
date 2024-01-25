@@ -15,6 +15,8 @@ namespace studenten_voortgang_applicatie.Models
         // basic personal information
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName { get => LastName + ", " + FirstName; }
+
         public DateTime DateOfBirth { get; set; }
 
         // optional user account associated with person
@@ -84,11 +86,10 @@ namespace studenten_voortgang_applicatie.Models
             return Username != null;
         }
 
-        // return true if person has username and both username and password match
-        public bool ValidateCredentials(string username, string password)
+        public bool ValidateCredential(string password)
         {
             if (_password == null) return false;
-            return this.Username == username && _password == password;
+            return _password == password;
         }
 
         protected void addRole(UserRoles role)
