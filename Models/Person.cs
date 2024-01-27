@@ -16,19 +16,16 @@ namespace studenten_voortgang_applicatie.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get => LastName + ", " + FirstName; }
-
         public DateTime DateOfBirth { get; set; }
 
-        // optional user account associated with person
+        // account related properties (optional)
         public const int MinPasswordLength = 4;
-        private static HashSet<string> _allUsernames = new HashSet<string>();
+        private static HashSet<string> _allUsernames = new HashSet<string>(); // to prevent duplicate usernames
+
         private string? _username;
         public string? Username
         {
-            get
-            {
-                return _username;
-            }
+            get => _username;
             set 
             {
                 if(value == null)  // allow account to be deleted
@@ -61,18 +58,14 @@ namespace studenten_voortgang_applicatie.Models
                 }
                 else
                 {
+                    // should hash or encrypt password
                     _password = value;
                 }
             }
         }        
         private List<UserRoles> _roles;
-        public List<UserRoles> Roles
-        {
-            get
-            {
-                return _roles;
-            }
-        }
+        public List<UserRoles> Roles { get => _roles; }
+
 
         public Person(string firstName, string lastName)
         {
@@ -88,7 +81,6 @@ namespace studenten_voortgang_applicatie.Models
 
         public bool ValidateCredential(string password)
         {
-            if (_password == null) return false;
             return _password == password;
         }
 
@@ -96,7 +88,7 @@ namespace studenten_voortgang_applicatie.Models
         {
             _roles.Add(role);
         }
-        public bool HashRole(UserRoles role)
+        public bool HasRole(UserRoles role)
         {
             return _roles.Contains(role);
         }

@@ -25,24 +25,34 @@ namespace studenten_voortgang_applicatie.Controllers
 
         public Person Authenticate()
         {
-            (string username, string password) = _loginView.GetCredentials();
+            int loginAttempt = 0;
 
-            // Linq
-            IEnumerable<Person> foundUser = from user in _school.Users
-                                            where user.Username == username
-                                            select user;
-            
-            if(foundUser.Count() == 1 && foundUser.First().ValidateCredential(password))
-            {                
-                return foundUser.First();
-            }
-            else
+            while (loginAttempt < _maxNumAttempts)
             {
-                // login failed
-                return null;
-            }           
+                loginAttempt++;
 
-        }
-        
+                (string username, string password) = _loginView.GetCredentials();
+
+                // find user in set of all users
+                IEnumerable<Person> foundUser = from user in _school.Users
+                                                where user.Username == username
+                                                select user;
+
+                if (foundUser.Count() == 1 && foundUser.First().ValidateCredential(password))
+                {
+                    return foundUser.First();
+                }
+                else
+                {
+                    if (loginAttempt < _maxNumAttempts)
+                    {
+                        _loginView.DisplayLoginFailureMessage();
+                    }                    
+                }
+            }
+
+            _loginView.DisplayAccessDeniedMessage();
+            return null; // login failed   
+        }        
     }
 }

@@ -31,14 +31,11 @@ namespace studenten_voortgang_applicatie
             {
                 Console.Clear();
                 Console.WriteLine($"Welcome {loggedOnUser.FullName}");
+                Console.WriteLine($"You have role Student {loggedOnUser.HasRole(Enums.UserRoles.Student)}");
+                Console.WriteLine($"You have role Employee {loggedOnUser.HasRole(Enums.UserRoles.Employee)}");
+                Console.ReadKey();
             }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Sorry, you're not allowed to log on");
-            }
-            
-            Console.ReadKey();
+            // else login failed
         }
 
         private School CreateSampleData()

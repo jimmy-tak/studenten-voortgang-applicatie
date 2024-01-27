@@ -1,4 +1,5 @@
 ﻿using studenten_voortgang_applicatie.Controllers;
+using studenten_voortgang_applicatie.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,12 @@ namespace studenten_voortgang_applicatie.Models
         public string Name { get; set; }
         public Action Action { get; set; }
 
- 
+        public List<UserRoles> AvailableToRoles { get; set; }
+
+        public MenuItem(string name)
+        {
+            Name = name;
+        }
 
 
 

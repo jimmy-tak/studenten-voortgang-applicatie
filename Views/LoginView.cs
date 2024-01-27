@@ -19,5 +19,17 @@ namespace studenten_voortgang_applicatie.Views
             password = Console.ReadLine();
             return (username, password);
         }
+
+        public void DisplayLoginFailureMessage()
+        {
+            Console.WriteLine("Login failed: incorrect username or password. Press any key to continue.");
+            Console.ReadKey();
+        }
+
+        public void DisplayAccessDeniedMessage()
+        {
+            Console.WriteLine("Access denied. Press any key to continue.");
+            Console.ReadKey();
+        }
     }
 }
