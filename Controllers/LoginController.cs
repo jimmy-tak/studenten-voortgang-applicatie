@@ -16,10 +16,11 @@ namespace studenten_voortgang_applicatie.Controllers
 
         private const int _maxNumAttempts = 3;
 
-        public LoginController(LoginView loginView, School school)
+        public LoginController(School school, LoginView loginView)
         {
-            _loginView = loginView;
             _school = school;
+            _loginView = loginView;
+            
         }
 
 

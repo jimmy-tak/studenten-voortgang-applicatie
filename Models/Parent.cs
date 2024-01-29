@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
 {
-    internal class Guardian : Person
+    internal class Parent : Person
     {
         private HashSet<Student> children;
 
-        public Guardian(string firstName, string lastName) : base(firstName, lastName)
+        public Parent(string firstName, string lastName) : base(firstName, lastName)
         {
             addRole(UserRoles.Guardian);
         }

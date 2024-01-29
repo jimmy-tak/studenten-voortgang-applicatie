@@ -11,12 +11,17 @@ namespace studenten_voortgang_applicatie.Controllers
     internal class SchoolController
     {
         private School _school;
+        private StudentView _studentView;
 
-        public SchoolController(School school)
+        public SchoolController(School school, StudentView studentView)
         {
             _school = school;
+            _studentView = studentView;
         }
 
-
+        public void AddStudent()
+        {
+            _studentView.AddStudent();
+        }
     }
 }

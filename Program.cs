@@ -1,6 +1,7 @@
 ﻿using studenten_voortgang_applicatie.Models;
 using studenten_voortgang_applicatie.Views;
 using studenten_voortgang_applicatie.Controllers;
+using studenten_voortgang_applicatie.Enums;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
@@ -25,17 +26,23 @@ namespace studenten_voortgang_applicatie
         {
             School school = CreateSampleData();
 
-            Person loggedOnUser = new LoginController(new LoginView(), school).Authenticate();
+            Person loggedOnUser = new LoginController(school, new LoginView()).Authenticate();
 
             if(loggedOnUser != null)
             {
-                Console.Clear();
-                Console.WriteLine($"Welcome {loggedOnUser.FullName}");
-                Console.WriteLine($"You have role Student {loggedOnUser.HasRole(Enums.UserRoles.Student)}");
-                Console.WriteLine($"You have role Employee {loggedOnUser.HasRole(Enums.UserRoles.Employee)}");
+                SchoolController schoolController = new SchoolController(school, new StudentView());
+                MenuController menuController = new MenuController(loggedOnUser);
+
+                Menu mainMenu = CreateMenus();
+                menuController.AddMenu(mainMenu);
+                menuController
+
                 Console.ReadKey();
             }
             // else login failed
+
+            
+            
         }
 
         private School CreateSampleData()
@@ -50,9 +57,14 @@ namespace studenten_voortgang_applicatie
             return school;
 
         }
-        private void CreateMenus()
+        private Menu CreateMenus()
         {
+            Menu mainMenu = new Menu("Main menu");
+            mainMenu.AddRole(UserRoles.Employee);
 
+            MenuItem item = new MenuItem("Option 1");
+
+            mainMenu.AddMenuItem(item);
         }
 
 
