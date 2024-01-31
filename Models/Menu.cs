@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
 {
-    internal class Menu
+    internal record Menu
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public List<MenuItem> MenuItems { get; set; }
         public List<UserRoles> AvailableToUserRoles { get; set; }
-
     }
 }
 

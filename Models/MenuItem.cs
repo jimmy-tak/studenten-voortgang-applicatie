@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
 {
-    internal class MenuItem
+    internal record MenuItem
     {
         public string Name { get; set; }        
         public Action? Callback { get; set; }

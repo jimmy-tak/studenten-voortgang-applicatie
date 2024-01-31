@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,52 +11,39 @@ namespace studenten_voortgang_applicatie.Views
 {
     internal class MenuView
     {
-        public MenuItem DisplayMenu(Menu menu)
-        {
+        public MenuItem DisplayMenu(Menu menu, Person user) {
             while(true)
             {
-                int chosenMenuItem;
-
                 Console.Clear();
+                Console.WriteLine($"{menu.Name}\n");
 
                 foreach (MenuItem menuItem in menu.MenuItems)
                 {
-                    Console.Write($"{menu.MenuItems.IndexOf(menuItem)}.\t"); // slow but fun
+                    Console.Write($"{menu.MenuItems.IndexOf(menuItem) + 1}.\t"); // simple counter would be faster
                     Console.WriteLine(menuItem.Name);
                 }
                 Console.WriteLine("0.\tExit or previous menu");
-                Console.Write("\nPlease enter your choose: ");
+                Console.Write("\nPlease enter your choice: ");
 
-                if (int.TryParse(Console.ReadLine(), out chosenMenuItem))
+                int chosenMenuItem;
+                if(int.TryParse(Console.ReadLine(), out chosenMenuItem) && chosenMenuItem > 0 && chosenMenuItem <= menu.MenuItems.Count) 
                 {
-                    if (chosenMenuItem == 0)
-                    {
-                        return null;
-                    }
-                    else if (chosenMenuItem < menu.MenuItems.Count)
-                    {
-                        return menu.MenuItems[chosenMenuItem - 1];
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please choose a valid menu option");
-                        Console.ReadKey();
-                    }
+                    
+                    return menu.MenuItems[chosenMenuItem - 1];                    
+                } 
+                else if(chosenMenuItem == 0)
+                {
+                    Debug.WriteLine($"chosen menu item: 0");
+                    return null;
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid number");
+                    Console.WriteLine("Please enter a valid number.");
                     Console.ReadKey();
                 }
-
             }
 
 
-
-
-            
         }
-
-
     }
 }
