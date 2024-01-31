@@ -59,12 +59,26 @@ namespace studenten_voortgang_applicatie
         }
         private Menu CreateMenus()
         {
-            Menu mainMenu = new Menu("Main menu");
-            mainMenu.AddRole(UserRoles.Employee);
+            Menu mainMenu = new Menu()
+            {
+                Id = 1,
+                Name = "Main menu",
+                AvailableToUserRoles = { UserRoles.Employee },
+                MenuItems =
+                {
+                    new MenuItem()
+                    {
+                        Name = "Student administration",
+                        SubMenuId = 2, 
+                        AvailableToRoles = { UserRoles.Employee }
+                    }
+                }
 
-            MenuItem item = new MenuItem("Option 1");
+            };
 
             mainMenu.AddMenuItem(item);
+
+            
         }
 
 

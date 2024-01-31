@@ -10,26 +10,11 @@ namespace studenten_voortgang_applicatie.Models
 {
     internal class Menu
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public List<MenuItem> MenuItems { get; }
-        public List<UserRoles> AvailableToUserRoles { get; }
-        
-        public Menu(string name)
-        {
-            Name = name;
-            MenuItems = new List<MenuItem>();
-            AvailableToUserRoles = new List<UserRoles>();
-        }
+        public List<MenuItem> MenuItems { get; set; }
+        public List<UserRoles> AvailableToUserRoles { get; set; }
 
-        public void AddMenuItem(MenuItem item)
-        {
-            MenuItems.Add(item);
-        }
-
-        public void AddRole(UserRoles role)
-        {
-            AvailableToUserRoles.Add(role);
-        }
     }
 }
 
