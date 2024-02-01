@@ -17,6 +17,10 @@ namespace studenten_voortgang_applicatie.Models
         public string LastName { get; set; }
         public string FullName { get => LastName + ", " + FirstName; }
         public DateTime DateOfBirth { get; set; }
+        public string Street { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
+        public string PhoneNumber { get; set; }
 
         // account related properties (optional)
         public const int MinPasswordLength = 4;

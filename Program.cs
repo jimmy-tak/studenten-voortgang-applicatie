@@ -35,6 +35,7 @@ namespace studenten_voortgang_applicatie
                 menuController.Menus = CreateMenus(schoolController);
                 menuController.DisplayMenu(0); // main menu
 
+                Console.WriteLine("\nBye!");
                 Console.ReadKey();
             }
             // else login failed
