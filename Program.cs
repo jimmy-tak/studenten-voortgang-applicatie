@@ -74,8 +74,14 @@ namespace studenten_voortgang_applicatie
                         },
                         new MenuItem()
                         {
-                            Name = "Add student",
+                            Name = "Course administration",
                             Callback = schoolController.AddStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Employee administration",
+                            SubMenuId = 2,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         }
                     }

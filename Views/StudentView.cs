@@ -10,6 +10,7 @@ namespace studenten_voortgang_applicatie.Views
     {
         public void AddStudent()
         {
+            Console.Clear();
             Console.WriteLine("New student");
             Console.ReadKey();
         }

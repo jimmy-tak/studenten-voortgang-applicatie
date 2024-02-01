@@ -33,7 +33,6 @@ namespace studenten_voortgang_applicatie.Views
                 } 
                 else if(chosenMenuItem == 0)
                 {
-                    Debug.WriteLine($"chosen menu item: 0");
                     return null;
                 }
                 else
