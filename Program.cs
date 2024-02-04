@@ -27,18 +27,23 @@ namespace studenten_voortgang_applicatie
         {
             School school = CreateSampleData();
 
+#if DEBUG   // logging on is annoying
+            Person loggedOnUser = school.Employees.First();
+#else
             Person loggedOnUser = new LoginController(school, new LoginView()).Authenticate();
-
-            if(loggedOnUser != null)
+#endif
+            if (loggedOnUser != null)
             {
                 SchoolController schoolController = new SchoolController(school, new StudentView());
                 MenuController menuController = new MenuController(loggedOnUser, new MenuView());
                 menuController.Menus = CreateMenus(schoolController);
-                menuController.DisplayMenu(0); // main menu
+                menuController.DisplayMenu(0); // display the main menu
             }
             // else login failed and application terminates
+
         }
 
+        // build the menu's
         private List<Menu> CreateMenus(SchoolController schoolController)
         {
             return new List<Menu>()
@@ -80,7 +85,46 @@ namespace studenten_voortgang_applicatie
                         new MenuItem()
                         {
                             Name = "List students",
-                            Callback = schoolController.ListStudents,
+                            Callback = schoolController.DisplayAllStudents,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Find student",
+                            Callback = schoolController.DisplayStudentByStudentNumber,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Add student",
+                            Callback = schoolController.AddStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Remove student",
+                            Callback = schoolController.RemoveStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Edit student",
+                            Callback = schoolController.EditStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        }
+                    }
+                },
+                new Menu()
+                {
+                    Id = 1,
+                    Name = "Course administration",
+                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
+                    MenuItems = new List<MenuItem> ()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "List students",
+                            Callback = schoolController.DisplayAllStudents,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()

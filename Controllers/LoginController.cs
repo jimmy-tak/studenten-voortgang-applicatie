@@ -20,8 +20,7 @@ namespace studenten_voortgang_applicatie.Controllers
         public LoginController(School school, LoginView loginView)
         {
             _school = school;
-            _loginView = loginView;
-            
+            _loginView = loginView;            
         }
 
         public Person Authenticate()
@@ -39,20 +38,21 @@ namespace studenten_voortgang_applicatie.Controllers
                                                 where user.Username == username
                                                 select user;
 
+                // if user exists and password is correct
                 if (foundUser.Count() == 1 && foundUser.First().ValidateCredential(password))
                 {
                     return foundUser.First(); // login success
                 }
-                else
+                else // failed login attempt
                 {
                     if (loginAttempt < _maxLoginAttempts)
                     {
-                        _loginView.DisplayLoginFailureMessage();
+                        _loginView.DisplayPressAnyKeyToContinueMessage("Login failed: incorrect username or password.");
                     }                    
                 }
             }
 
-            _loginView.DisplayAccessDeniedMessage();
+            _loginView.DisplayPressAnyKeyToContinueMessage("Access denied.");
             return null; // login failed   
         }        
     }

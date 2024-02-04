@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Views
 {
-    internal class MenuView
+    internal class MenuView : BaseView
     {
         public MenuItem DisplayMenu(Menu menu, Person user) {
             while(true)
@@ -27,9 +27,9 @@ namespace studenten_voortgang_applicatie.Views
                 Console.Write("\nPlease enter your choice: ");
 
                 int chosenMenuItem;
+                // make sure the input corresponds to a menu option
                 if(int.TryParse(Console.ReadLine(), out chosenMenuItem) && chosenMenuItem > 0 && chosenMenuItem <= menu.MenuItems.Count) 
-                {
-                    
+                {                    
                     return menu.MenuItems[chosenMenuItem - 1];                    
                 } 
                 else if(chosenMenuItem == 0)
@@ -42,8 +42,6 @@ namespace studenten_voortgang_applicatie.Views
                     Console.ReadKey();
                 }
             }
-
-
         }
     }
 }

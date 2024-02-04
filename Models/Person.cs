@@ -21,6 +21,7 @@ namespace studenten_voortgang_applicatie.Models
         public string PostalCode { get; set; }
         public string City { get; set; }
         public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
         // account related properties (optional)
         public const int MinPasswordLength = 4;

@@ -19,32 +19,40 @@ namespace studenten_voortgang_applicatie.Controllers
             _studentView = studentView;
         }
 
-        // students
-        public void ListStudents()
+        // students related operations
+
+        // display a list of all students
+        public void DisplayAllStudents()
         {
-            _studentView.ListStudents(_school.Students);
+            _studentView.DisplayStudents(_school.Students);
         }
 
-        public void FindStudent()
+        // search for a student by student number
+        private Student FindStudentByStudentNumber()
         {
-            Student student = _studentView.FindStudent();
+            return _studentView.FindStudentByStudentNumber(_school.Students);
         }
 
-        public void DisplayStudent()
+        // display a selected student
+        public void DisplayStudentByStudentNumber()
         {
-            _studentView.DisplayStudent(_studentView.FindStudent());
-        }
+            _studentView.DisplayStudent(_studentView.FindStudentByStudentNumber(_school.Students));
+        }  
 
+        // remove a selected student
         public void RemoveStudent()
         {
-
+            _school.Students.Remove(_studentView.FindStudentByStudentNumber(_school.Students));
+            _studentView.DisplayPressAnyKeyToContinueMessage("Student removed");
         }
 
+        // add a new student
         public void AddStudent()
         {
              _school.Students.Add(_studentView.AddStudent());
         }
 
+        // edit a selected student
         public void EditStudent()
         {
 

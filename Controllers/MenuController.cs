@@ -14,6 +14,7 @@ namespace studenten_voortgang_applicatie.Controllers
         private Person _user;
         private MenuView _menuView;
         public List<Menu> Menus { get; set; }
+        // keep track of the menu's the user has visited so you can return to the previous menu's
         private Stack<Menu> _menuBreadCrumbTrail = new Stack<Menu>();
 
 #if DEBUG
@@ -34,30 +35,34 @@ namespace studenten_voortgang_applicatie.Controllers
 #endif
 
             {
-                MenuItem chosenMenuItem = _menuView.DisplayMenu(Menus.Where(menu => menu.Id == id).First(), _user); // linq feels like cheating                
+                MenuItem chosenMenuItem = _menuView.DisplayMenu(Menus.Where(menu => menu.Id == id).First(), _user); // link makes finding items in collections very easy               
                 
                 if (chosenMenuItem != null)
                 {
+                    // a submenu was chosen
                     if(chosenMenuItem.SubMenuId.HasValue)
                     {
-                        _menuBreadCrumbTrail.Push(Menus[id]); // push previous menu onto the stack so we can return to it
-                        DisplayMenu(chosenMenuItem.SubMenuId.Value);  // recursion hopefully works out here
+                        _menuBreadCrumbTrail.Push(Menus[id]); // push the current menu onto the stack so we can return to it
+                        DisplayMenu(chosenMenuItem.SubMenuId.Value); // recursively display the submenu
                     }
-                    else // if(chosenMenuItem.Callback != null)
+                    // a callback was chosen
+                    else
                     {
-                        chosenMenuItem.Callback(); // may be null but should not be null
-                        DisplayMenu(id); // back to the same menu
+                        chosenMenuItem.Callback(); // call the selected function
+                        DisplayMenu(id); // display the same menu again
                     }                    
                 }
                 else
                 {
+                    // return to the previous menu
                     if (_menuBreadCrumbTrail.Count > 0)
                     {
                         DisplayMenu(_menuBreadCrumbTrail.Pop().Id);
                     }
+                    // user chose to exit the main menu
                     else
                     {
-                        Console.WriteLine("exiting");
+                        _menuView.DisplayPressAnyKeyToContinueMessage("Exiting application.");
                     }
                 }
             }

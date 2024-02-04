@@ -8,29 +8,16 @@ namespace studenten_voortgang_applicatie.Views
 {
     internal class LoginView : BaseView
     {
+        // get username and password input
         public (string, string) GetCredentials()
         {
             string username, password;
 
             Console.Clear();
-            Console.Write("username: ");
-            username = Console.ReadLine();
-            Console.Write("password: ");
-            password = Console.ReadLine();
+            username = GetStringInput("username");
+            password = GetStringInput("password");
 
-            return (username, password);
-        }
-
-        public void DisplayLoginFailureMessage()
-        {
-            Console.WriteLine("Login failed: incorrect username or password.");
-            DisplayPressAnyKeyToContinueMessage();
-        }
-
-        public void DisplayAccessDeniedMessage()
-        {
-            Console.WriteLine("Access denied.");
-            DisplayPressAnyKeyToContinueMessage();
+            return (username, password); // tuple
         }
     }
 }
