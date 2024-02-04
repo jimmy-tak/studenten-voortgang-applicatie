@@ -11,18 +11,20 @@ namespace studenten_voortgang_applicatie.Models
         public string Name { get; set; }
         public string BrinNummer { get; set; }
 
-        
-        HashSet<Student> Students { get; set; }
-        HashSet<Employee> Employees { get; set; }
-        HashSet<Course> Courses { get; set; }
-
+        public HashSet<Employee> Employees { get; private set; }
+        public HashSet<Teacher> Teachers { get; private set; }
+        public HashSet<Student> Students { get; private set; }        
+        public HashSet<Parent> Parents { get; private set; }
+        public HashSet<Course> Courses { get; private set;  }
         public HashSet<Person> Users
         {
             get
             {
                 HashSet<Person> allUsers = new HashSet<Person>();
-                allUsers.UnionWith(Employees); // polymorphism?
+                allUsers.UnionWith(Employees);
+                allUsers.UnionWith(Teachers);
                 allUsers.UnionWith(Students);
+                allUsers.UnionWith(Parents);
                 return allUsers;
             }
         }
@@ -32,9 +34,11 @@ namespace studenten_voortgang_applicatie.Models
         {
             Name = name;
             BrinNummer = brinNummer;
-            Students = new HashSet<Student>();
             Employees = new HashSet<Employee>();
-
+            Teachers = new HashSet<Teacher>();
+            Students = new HashSet<Student>();
+            Parents = new HashSet<Parent>();
+            Courses = new HashSet<Course>();
         }
 
         public void AddEmployee(Employee employee)

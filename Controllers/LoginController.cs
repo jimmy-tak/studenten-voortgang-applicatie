@@ -1,5 +1,6 @@
 ﻿using studenten_voortgang_applicatie.Models;
 using studenten_voortgang_applicatie.Views;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace studenten_voortgang_applicatie.Controllers
         private readonly School _school;
         private readonly LoginView _loginView;
 
-        private const int _maxNumAttempts = 3;
+        private const int _maxLoginAttempts = 3;
 
         public LoginController(School school, LoginView loginView)
         {
@@ -23,12 +24,11 @@ namespace studenten_voortgang_applicatie.Controllers
             
         }
 
-
         public Person Authenticate()
         {
             int loginAttempt = 0;
 
-            while (loginAttempt < _maxNumAttempts)
+            while(loginAttempt < _maxLoginAttempts)
             {
                 loginAttempt++;
 
@@ -41,11 +41,11 @@ namespace studenten_voortgang_applicatie.Controllers
 
                 if (foundUser.Count() == 1 && foundUser.First().ValidateCredential(password))
                 {
-                    return foundUser.First();
+                    return foundUser.First(); // login success
                 }
                 else
                 {
-                    if (loginAttempt < _maxNumAttempts)
+                    if (loginAttempt < _maxLoginAttempts)
                     {
                         _loginView.DisplayLoginFailureMessage();
                     }                    

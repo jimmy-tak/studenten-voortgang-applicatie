@@ -2,16 +2,17 @@
 using studenten_voortgang_applicatie.Views;
 using studenten_voortgang_applicatie.Controllers;
 using studenten_voortgang_applicatie.Enums;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Security.Authentication;
+using System.Xml.Linq;
 
 namespace studenten_voortgang_applicatie
 {
     internal class Program
-    {
-        
+    {        
         static void Main(string[] args)
         {
             new Program().Run();
@@ -34,31 +35,13 @@ namespace studenten_voortgang_applicatie
                 MenuController menuController = new MenuController(loggedOnUser, new MenuView());
                 menuController.Menus = CreateMenus(schoolController);
                 menuController.DisplayMenu(0); // main menu
-
-                Console.WriteLine("\nBye!");
-                Console.ReadKey();
             }
-            // else login failed
-
-            
-            
+            // else login failed and application terminates
         }
 
-        private School CreateSampleData()
-        {
-            School school = new School("Curio", "25LX");
-            Employee employee = new Employee("Jimmy", "Tak");
-            employee.Username = "jimmy";
-            employee.Password = "1234"; // no try catch in sample data
-            employee.EmployeeNumber = "1";
-            school.AddEmployee(employee);
-
-            return school;
-
-        }
         private List<Menu> CreateMenus(SchoolController schoolController)
         {
-            return new List<Menu> ()
+            return new List<Menu>()
             {
                 new Menu()
                 {
@@ -97,7 +80,7 @@ namespace studenten_voortgang_applicatie
                         new MenuItem()
                         {
                             Name = "List students",
-                            SubMenuId = 2,
+                            Callback = schoolController.ListStudents,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
@@ -105,10 +88,37 @@ namespace studenten_voortgang_applicatie
                             Name = "Add student",
                             Callback = schoolController.AddStudent,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Remove student",
+                            Callback = schoolController.RemoveStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Edit student",
+                            Callback = schoolController.EditStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         }
                     }
                 }
             };
+        }
+
+        private School CreateSampleData()
+        {
+            School school = new School("Curio", "25LX");
+            Employee employee = new Employee("Jimmy", "Tak");
+            employee.Username = "jimmy";
+            employee.Password = "1234"; // no try catch in sample data
+            employee.EmployeeNumber = "1";
+            school.AddEmployee(employee);
+
+            school.Students.Add(new Student("Jan", "Jansen"));
+
+            return school;
+
         }
     }
 }

@@ -19,9 +19,35 @@ namespace studenten_voortgang_applicatie.Controllers
             _studentView = studentView;
         }
 
+        // students
+        public void ListStudents()
+        {
+            _studentView.ListStudents(_school.Students);
+        }
+
+        public void FindStudent()
+        {
+            Student student = _studentView.FindStudent();
+        }
+
+        public void DisplayStudent()
+        {
+            _studentView.DisplayStudent(_studentView.FindStudent());
+        }
+
+        public void RemoveStudent()
+        {
+
+        }
+
         public void AddStudent()
         {
-            _studentView.AddStudent();
+             _school.Students.Add(_studentView.AddStudent());
+        }
+
+        public void EditStudent()
+        {
+
         }
     }
 }

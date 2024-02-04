@@ -1,11 +1,12 @@
-﻿using System;
+﻿using studenten_voortgang_applicatie.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using studenten_voortgang_applicatie.Models;
+
 
 namespace studenten_voortgang_applicatie.Views
 {

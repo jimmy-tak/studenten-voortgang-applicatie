@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Views
 {
-    internal class LoginView
+    internal class LoginView : BaseView
     {
         public (string, string) GetCredentials()
         {
@@ -17,19 +17,20 @@ namespace studenten_voortgang_applicatie.Views
             username = Console.ReadLine();
             Console.Write("password: ");
             password = Console.ReadLine();
+
             return (username, password);
         }
 
         public void DisplayLoginFailureMessage()
         {
-            Console.WriteLine("Login failed: incorrect username or password. Press any key to continue.");
-            Console.ReadKey();
+            Console.WriteLine("Login failed: incorrect username or password.");
+            DisplayPressAnyKeyToContinueMessage();
         }
 
         public void DisplayAccessDeniedMessage()
         {
-            Console.WriteLine("Access denied. Press any key to continue.");
-            Console.ReadKey();
+            Console.WriteLine("Access denied.");
+            DisplayPressAnyKeyToContinueMessage();
         }
     }
 }
