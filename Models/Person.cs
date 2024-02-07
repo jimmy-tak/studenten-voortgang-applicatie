@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace studenten_voortgang_applicatie.Models
 {
 
-    internal abstract class Person
+    internal class Person
     {
         // basic personal information
         public string FirstName { get; set; }
@@ -71,12 +71,16 @@ namespace studenten_voortgang_applicatie.Models
         private List<UserRoles> _roles;
         public List<UserRoles> Roles { get => _roles; }
 
+        public Person()
+        {
+            _roles = new List<UserRoles>();
+        }
 
-        public Person(string firstName, string lastName)
+        public Person(string firstName, string lastName) : this()
         {
             FirstName = firstName;
             LastName = lastName;
-            _roles = new List<UserRoles>();
+
         }
 
         public bool HasAccount()

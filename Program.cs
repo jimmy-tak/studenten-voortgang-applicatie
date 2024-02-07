@@ -159,7 +159,7 @@ namespace studenten_voortgang_applicatie
             employee.EmployeeNumber = "1";
             school.AddEmployee(employee);
 
-            school.Students.Add(new Student("Jan", "Jansen"));
+            school.Students.Add(new Student() { LastName = "Jansen", FirstName = "Jan"});
 
             return school;
 

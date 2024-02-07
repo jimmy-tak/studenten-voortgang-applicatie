@@ -52,7 +52,9 @@ namespace studenten_voortgang_applicatie.Views
             do
             {
                 Console.Write($"{text} (d-M-yyyy): ");
-                success = DateTime.TryParseExact(Console.ReadLine(), "d-M-yyyy", new CultureInfo("nl-NL"), DateTimeStyles.None, out dateTime);
+                string inputDateTime = Console.ReadLine();
+                if (inputDateTime == "") return DateTime.MinValue; // so we can skip entering datetime
+                success = DateTime.TryParseExact(inputDateTime, "d-M-yyyy", new CultureInfo("nl-NL"), DateTimeStyles.None, out dateTime);
             }
             while (!success);
 

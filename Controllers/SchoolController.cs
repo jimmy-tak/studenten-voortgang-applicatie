@@ -36,7 +36,7 @@ namespace studenten_voortgang_applicatie.Controllers
         // display a selected student
         public void DisplayStudentByStudentNumber()
         {
-            _studentView.DisplayStudent(_studentView.FindStudentByStudentNumber(_school.Students));
+            _studentView.DisplayStudentDetails (_studentView.FindStudentByStudentNumber(_school.Students));
         }  
 
         // remove a selected student
@@ -55,7 +55,7 @@ namespace studenten_voortgang_applicatie.Controllers
         // edit a selected student
         public void EditStudent()
         {
-
+            _studentView.EditStudent(_studentView.FindStudentByStudentNumber(_school.Students));
         }
     }
 }

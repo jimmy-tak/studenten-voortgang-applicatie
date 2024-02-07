@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,33 @@ namespace studenten_voortgang_applicatie.Views
 
 
         // display a single student
-        public void DisplayStudent(Student student)
+        private void DisplayStudent(Student student)
         {
             Console.WriteLine($"{student.StudentNumber}\t{student.FullName} ({student.DateOfBirth.ToString("d-M-yyyy")})");
+        }
+
+        public void DisplayStudentDetails(Student student)
+        {
+            Console.Clear();
+            Console.WriteLine($"Student number\t: {student.StudentNumber}");
+            Console.WriteLine($"Last name\t: {student.LastName}");
+            Console.WriteLine($"First name\t: {student.FirstName}");
+            Console.WriteLine($"Date of birth\t: {student.DateOfBirth.ToString("d-M-yyyy")}");
+            Console.WriteLine($"Email\t\t: {student.Email}");
+            Console.WriteLine($"Street\t\t: {student.Street}");
+            Console.WriteLine($"Postal code\t: {student.PostalCode}");
+            Console.WriteLine($"City\t\t: {student.City}");
+            Console.WriteLine($"Username\t: {student.Username}");
+            DisplayPressAnyKeyToContinueMessage();
+
+        }
+
+        // display a single student and wait
+        public void DisplayStudentAndWait(Student student)
+        {
+            Console.Clear();
+            DisplayStudent(student);
+            DisplayPressAnyKeyToContinueMessage();
         }
 
         // display all students
@@ -35,62 +60,50 @@ namespace studenten_voortgang_applicatie.Views
         {
             int studentNumber;
 
+            
             while(true) // while studentNumber is not found
             {
+                Console.Clear();
                 studentNumber = GetIntInput("Student Number");
-                //if (studentNumber <= 0 || studentNumber > Student.lastStudentNumber) continue; // input student number does not exist
 
                 var foundStudents = students.Where(student => student.StudentNumber == studentNumber);
-                if(foundStudents != null)
+                if(foundStudents.Count() > 0) // student found
                 {
-#if DEBUG
-                    Debug.WriteLine(foundStudents.First());
-#endif
                     return foundStudents.First();
                 }
+                else
+                {
+                    DisplayPressAnyKeyToContinueMessage("Student not found.");
+                }
             }
-        }
-
-        // remove a student
-        public Student RemoveStudent()
-        {
-            return null;
         }
 
         // add a student
         public Student AddStudent()
         {
-            string lastName, firstName, email, street, postalCode, city;
-            DateTime dateOfBirth;
-
             Console.Clear();
-            Console.WriteLine("Please enter details of the student to add\n");
-
-            lastName = GetStringInput("Last name");
-            firstName = GetStringInput("First name");
-            dateOfBirth = GetDateTimeInput("Date of birth");
-            email = GetStringInput("Email");
-            street = GetStringInput("Street");
-            postalCode = GetStringInput("Postal code");
-            city = GetStringInput("city");
-
+            Console.WriteLine("Please enter the details of the student to add\n");
+            Person person = CreatePerson();
             DisplayPressAnyKeyToContinueMessage();
-
-            return new Student(firstName, lastName)
-            {
-                DateOfBirth = dateOfBirth,
-                Email = email,
-                Street = street,
-                PostalCode = postalCode,
-                City = city
-
-            };
+            return new Student(person);
            
         }
 
         // edit a student
-        public void EditStudent()
+        public void EditStudent(Student student)
         {
+            Console.Clear();
+            Console.WriteLine("Please enter the details of the student to edit. Leave emtpy to not change\n");
+            Person person = CreatePerson();
+            // set student properties to person properties if they have changed
+            student.FirstName = person.FirstName != "" ? person.FirstName : student.FirstName;
+            student.LastName = person.LastName != "" ? person.LastName : student.LastName;
+            student.DateOfBirth = person.DateOfBirth != DateTime.MinValue ? person.DateOfBirth : student.DateOfBirth;
+            student.Email = person.Email != "" ? person.Email : student.Email;
+            student.Street = person.Street != "" ? person.Street : student.Street;
+            student.PostalCode = person.PostalCode != "" ? person.PostalCode : student.PostalCode;
+            student.City = person.City != "" ? person.City : student.City;
+            DisplayPressAnyKeyToContinueMessage();
 
         }
     }
