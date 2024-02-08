@@ -12,7 +12,7 @@ namespace studenten_voortgang_applicatie.Models
     {
         public string Name { get; set; }        
         public Action? Callback { get; set; }
-        public int? SubMenuId { get; set; }
+        public Menus? SubMenuId { get; set; }
         public List<UserRoles> AvailableToRoles { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using studenten_voortgang_applicatie.Models;
+﻿using studenten_voortgang_applicatie.Views;
+using studenten_voortgang_applicatie.Models;
 using studenten_voortgang_applicatie.Views;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace studenten_voortgang_applicatie.Controllers
     {
         private School _school;
         private StudentView _studentView;
+        private CourseView _courseView;
 
-        public SchoolController(School school, StudentView studentView)
+        public SchoolController(School school, StudentView studentView, CourseView courseView)
         {
             _school = school;
             _studentView = studentView;
+            _courseView = courseView;
         }
 
         // students related operations
@@ -57,5 +60,45 @@ namespace studenten_voortgang_applicatie.Controllers
         {
             _studentView.EditStudent(_studentView.FindStudentByStudentNumber(_school.Students));
         }
+
+
+        // course related operations
+
+        // display a list of all courses
+        public void DisplayAllCourses()
+        {
+            _courseView.DisplayCourses(_school.Courses);
+        }
+
+        //// search for a course by code
+        //private Course FindCourseByCode()
+        //{
+        //    return _courseView.FindCourseByCourseNumber(_school.Courses);
+        //}
+
+        //// display a selected course
+        //public void DisplayCourseByCode()
+        //{
+        //    _courseView.DisplayCourseDetails(_courseView.FindCourseByCourseNumber(_school.Courses));
+        //}
+
+        //// remove a selected course
+        //public void RemoveCourse()
+        //{
+        //    _school.Courses.Remove(_courseView.FindCourseByCourseNumber(_school.Courses));
+        //    _courseView.DisplayPressAnyKeyToContinueMessage("Course removed");
+        //}
+
+        // add a new course
+        public void AddCourse()
+        {
+            _school.Courses.Add(_courseView.AddCourse());
+        }
+
+        //// edit a selected course
+        //public void EditCourse()
+        //{
+        //    _courseView.EditCourse(_courseView.FindCourseByCourseNumber(_school.Courses));
+        //}
     }
 }

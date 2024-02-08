@@ -25,7 +25,7 @@ namespace studenten_voortgang_applicatie.Models
         {
             LastName = person.LastName;
             FirstName = person.FirstName;
-            DateOfBirth = person.DateOfBirth; ;
+            DateOfBirth = person.DateOfBirth;
             Email = person.Email;
             Street = person.Street;
             PostalCode = person.PostalCode; 

@@ -1,5 +1,6 @@
 ﻿using studenten_voortgang_applicatie.Models;
 using studenten_voortgang_applicatie.Views;
+using studenten_voortgang_applicatie.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,28 +29,28 @@ namespace studenten_voortgang_applicatie.Controllers
             _menuView = menuView;
         }
 
-        public void DisplayMenu(int id)
+        public void DisplayMenu(Menus menuId)
         {
 #if DEBUG
             Debug.WriteLine($"DisplayMenu recursion counter: {++RecursionCounter}");
 #endif
 
             {
-                MenuItem chosenMenuItem = _menuView.DisplayMenu(Menus.Where(menu => menu.Id == id).First(), _user); // link makes finding items in collections very easy               
+                MenuItem chosenMenuItem = _menuView.DisplayMenu(Menus.Where(menu => menu.MenuId == menuId).First(), _user); // link makes finding items in collections very easy               
                 
                 if (chosenMenuItem != null)
                 {
                     // a submenu was chosen
                     if(chosenMenuItem.SubMenuId.HasValue)
                     {
-                        _menuBreadCrumbTrail.Push(Menus[id]); // push the current menu onto the stack so we can return to it
+                        _menuBreadCrumbTrail.Push(Menus[(int)menuId]); // push the current menu onto the stack so we can return to it
                         DisplayMenu(chosenMenuItem.SubMenuId.Value); // recursively display the submenu
                     }
                     // a callback was chosen
                     else
                     {
                         chosenMenuItem.Callback(); // call the selected function
-                        DisplayMenu(id); // display the same menu again
+                        DisplayMenu(menuId); // display the same menu again
                     }                    
                 }
                 else
@@ -57,7 +58,7 @@ namespace studenten_voortgang_applicatie.Controllers
                     // return to the previous menu
                     if (_menuBreadCrumbTrail.Count > 0)
                     {
-                        DisplayMenu(_menuBreadCrumbTrail.Pop().Id);
+                        DisplayMenu(_menuBreadCrumbTrail.Pop().MenuId);
                     }
                     // user chose to exit the main menu
                     else
