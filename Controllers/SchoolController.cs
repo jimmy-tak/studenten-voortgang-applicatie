@@ -105,9 +105,32 @@ namespace studenten_voortgang_applicatie.Controllers
         // Enrollment related methods //
 
         // display all enrollments
+        public void DisplayEnrollmentsByStudent()
+        {
+            _enrollmentView.Clear();
+            _enrollmentView.DisplayEnrollmentsByStudent(_studentView.FindStudentByStudentNumber(_school.Students));
+            _enrollmentView.DisplayPressAnyKeyToContinueMessage();
+        }
+
+        public void DisplayEnrollmentsByCourse()
+        {
+            _enrollmentView.Clear();
+            _enrollmentView.DisplayEnrollmentsByCourse(_courseView.FindCourseByCode(_school.Courses));
+            _enrollmentView.DisplayPressAnyKeyToContinueMessage();
+        }
+
+        public void DisplayAllEnrollmentsByCourse()
+        {
+            _enrollmentView.Clear();
+            _enrollmentView.DisplayAllEnrollmentsByCourse(_school.Courses);
+            _enrollmentView.DisplayPressAnyKeyToContinueMessage();
+        }
+
         public void DisplayAllEnrollmentsByStudent()
         {
-            _enrollmentView.DisplayAllEnrollmentsByStudent(_studentView.FindStudentByStudentNumber(_school.Students));
+            _enrollmentView.Clear();
+            _enrollmentView.DisplayAllEnrollmentsByStudent(_school.Students);
+            _enrollmentView.DisplayPressAnyKeyToContinueMessage();
         }
     }
 }

@@ -163,28 +163,29 @@ namespace studenten_voortgang_applicatie
                     AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
                     MenuItems = new List<MenuItem> ()
                     {
+
                         new MenuItem()
                         {
-                            Name = "List enrollments by student",
+                            Name = "List all enrollments by student",
                             Callback = schoolController.DisplayAllEnrollmentsByStudent,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Find enrollment",
-                            Callback = schoolController.DisplayCourseByCode,
+                            Name = "List all enrollments by course",
+                            Callback = schoolController.DisplayAllEnrollmentsByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Add enrollment",
-                            Callback = schoolController.AddCourse,
+                            Name = "Find enrollments by student",
+                            Callback = schoolController.DisplayEnrollmentsByStudent,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Remove enrollment",
-                            Callback = schoolController.RemoveCourse,
+                            Name = "Find enrollments by course ",
+                            Callback = schoolController.DisplayEnrollmentsByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         }//,
                         //new MenuItem()
