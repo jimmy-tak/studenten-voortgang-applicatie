@@ -20,8 +20,11 @@ namespace studenten_voortgang_applicatie.Views
 
                 foreach (MenuItem menuItem in menu.MenuItems)
                 {
-                    Console.Write($"{menu.MenuItems.IndexOf(menuItem) + 1}.\t"); // simple counter would be faster
-                    Console.WriteLine(menuItem.Name);
+                    if (menuItem.AvailableToRoles.Intersect(user.Roles).Count() > 0) // is menuitem available to a role that the user has?
+                    {
+                        Console.Write($"{menu.MenuItems.IndexOf(menuItem) + 1}.\t"); 
+                        Console.WriteLine(menuItem.Name);
+                    }
                 }
                 Console.WriteLine("0.\tExit or previous menu");
                 Console.Write("\nPlease enter your choice: ");

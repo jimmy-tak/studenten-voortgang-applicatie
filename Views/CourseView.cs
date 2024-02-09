@@ -15,7 +15,7 @@ namespace studenten_voortgang_applicatie.Views
         // display a single course
         public void DisplayCourse(Course Course)
         {
-            Console.WriteLine($"{Course.Code}\t{Course.Name} ({Course.Description})");
+            Console.WriteLine($"{Course.Code}\t{Course.Name} ({Course.Description}) - Seats available: {Course.Seats - Course.Students.Count}");
         }
 
         public void DisplayCourseDetails(Course Course)
@@ -56,7 +56,6 @@ namespace studenten_voortgang_applicatie.Views
         public Course FindCourseByCode(HashSet<Course> Courses)
         {
             string code;
-
 
             while (true) // while CourseNumber is not found
             {

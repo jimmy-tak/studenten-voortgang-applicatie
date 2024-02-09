@@ -20,35 +20,48 @@ namespace studenten_voortgang_applicatie.Views
             _courseView = courseView;
         }
 
-
-        // display a single enrollment
-        public void DisplayAllEnrollmentsByCourse(Course course)
+        // display enrollments for a single course
+        public void DisplayEnrollmentsByCourse(Course course)
         {
-            Console.Clear();
             _courseView.DisplayCourse(course);
+            Console.WriteLine($"Seats: ({course.CountEnrollments()} of {course.Seats})\n");
 
-            foreach(Student student in course.Students)
+            foreach (Student student in course.Students)
             {
                 _studentView.DisplayStudent(student);
             }
-
-            DisplayPressAnyKeyToContinueMessage();
-
         }
 
-        // display all enrollments
-        public void DisplayAllEnrollmentsByStudent(Student student)
+        // display enrollments for a single student
+        public void DisplayEnrollmentsByStudent(Student student)
         {
-            Console.Clear();
             _studentView.DisplayStudent(student);
-
 
             foreach (Course course in student.Courses)
             {
                 _courseView.DisplayCourse(course);
             }
-
-            DisplayPressAnyKeyToContinueMessage();
         }
+
+        // display enrollments for all student
+        public void DisplayAllEnrollmentsByStudent(HashSet<Student> students)
+        {
+            foreach(Student student in students)
+            {
+                DisplayEnrollmentsByStudent(student);
+                DisplayEmptyLine(2);
+            }
+        }
+
+        // display enrollments for all courses
+        public void DisplayAllEnrollmentsByCourse(HashSet<Course> courses)
+        {
+            foreach (Course course in courses)
+            {
+                DisplayEnrollmentsByCourse(course);
+                DisplayEmptyLine(2);
+            }
+        }
+
     }
 }

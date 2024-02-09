@@ -9,9 +9,18 @@ namespace studenten_voortgang_applicatie.Models
 {
     internal class Teacher : Employee
     {
-        //public Teacher(string firstName, string lastName) : base(firstName, lastName)
-        //{
-        //    addRole(UserRoles.Teacher);
-        //}
+        // courses teacher is teaching
+        public HashSet<Course> Courses { get; private set; }
+
+        public Teacher() : base()
+        {
+            AddRole(UserRoles.Teacher);
+        }
+
+        public Teacher(Person person) : base(person)
+        {
+            AddRole(UserRoles.Teacher);
+
+        }
     }
 }

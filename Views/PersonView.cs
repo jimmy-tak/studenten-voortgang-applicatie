@@ -10,6 +10,19 @@ namespace studenten_voortgang_applicatie.Views
 {
     internal class PersonView : BaseView
     {
+        public void DisplayPersonDetails(Person person)
+        {
+            Console.WriteLine($"Last name\t: {person.LastName}");
+            Console.WriteLine($"First name\t: {person.FirstName}");
+            string dateOfBearth = person.DateOfBirth != DateTime.MinValue ? person.DateOfBirth.ToString("d-M-yyyy") : "";
+            Console.WriteLine($"Date of birth\t: {dateOfBearth}");
+            Console.WriteLine($"Email\t\t: {person.Email}");
+            Console.WriteLine($"Street\t\t: {person.Street}");
+            Console.WriteLine($"Postal code\t: {person.PostalCode}");
+            Console.WriteLine($"City\t\t: {person.City}");
+            //Console.WriteLine($"Username\t: {person.Username}");
+        }
+
         public Person GetPersonDetails(bool required = false)
         {
             string lastName, firstName, email, street, postalCode, city;

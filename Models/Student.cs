@@ -19,7 +19,7 @@ namespace studenten_voortgang_applicatie.Models
         public Student()
         {
             StudentNumber = ++Student.lastStudentNumber;
-            addRole(UserRoles.Student);
+            AddRole(UserRoles.Student);
             Courses = new HashSet<Course>();
         }
 

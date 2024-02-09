@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
@@ -12,54 +13,41 @@ namespace studenten_voortgang_applicatie.Models
         public string Description { get; set; }
         public string Code {  get; set; }
 
-        public int Seats { get; set; }
+        // number of students that can enroll to the course
+        public int Seats { get; set; } = 0;
+        [JsonIgnore]
+        public bool HasAvailableSeats { get => Seats > Students.Count; }
 
         // set containing enrolled students
-        public HashSet<Student> Students { get; private set; }
+        [JsonIgnore]
+        public HashSet<Student> Students { get; private set; } = new HashSet<Student>();
+        public Teacher? Teacher { get; set; }
 
         // constructor
         public Course() {
-            Students = new HashSet<Student>();
         }
 
         // add a student to the course
         public void Enroll (Student student)
         {
             if (student == null) return;
-            if(Students.Count <= Seats)
+            if(HasAvailableSeats)
             {
                 Students.Add(student);
-                student.Courses.Add(this); // relation is two-way
+                student.Courses.Add(this);
             }
             else
             {
-                throw new ArgumentException("Course if fully booked");
+                throw new ArgumentException("Course if fully booked"); // just as an example of exceptions
             }
         }
-
-        //// add multiple students to the course
-        //// #not_implemented
-        //public void Enroll(HashSet<Student> students)
-        //{
-        //    if (students == null) return;
-        //    if (this.Students == null) this.Students = new HashSet<Student>();
-        //    // ???
-        //}
 
         // remove a student from the course
         public void UnEnroll (Student student)
         {
             if (student == null) return;
-            if (Students == null) return;
             student.Courses.Remove(this);
             Students.Remove(student);
-        }
-
-        // return the number of enrolled students
-        public int CountEnrollments()
-        {
-            if(Students == null) return 0;
-            return Students.Count;
         }
     }
 }

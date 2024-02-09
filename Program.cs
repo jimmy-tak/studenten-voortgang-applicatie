@@ -27,27 +27,34 @@ namespace studenten_voortgang_applicatie
         {
             School school = CreateSampleData();
 
-#if DEBUG   // logging on is annoying
-            Person loggedOnUser = school.Employees.First();
-#else
             Person loggedOnUser = new LoginController(school, new LoginView()).Authenticate();
-#endif
+
             if (loggedOnUser != null)
             {
+                // create views
                 StudentView studentView = new StudentView();
                 CourseView courseView = new CourseView();
                 EnrollmentView enrollmentView = new EnrollmentView(studentView, courseView);
-                SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView);
+                TeacherView teacherView = new TeacherView();
+                // create controllers
+                SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView);
+                // studentcontroller is only needed when student is logged on. there's probably a better way to do this
+                StudentCourseController studentCourseController = new StudentCourseController();
+                if (loggedOnUser.HasRole(UserRoles.Student))
+                {
+                    studentCourseController = new StudentCourseController(school, (Student)loggedOnUser, studentView, courseView, enrollmentView);
+                }
                 MenuController menuController = new MenuController(loggedOnUser, new MenuView());
-                menuController.Menus = CreateMenus(schoolController);
-                menuController.DisplayMenu(Menus.MainMenu); // display the main menu
+                // create menus
+                menuController.Menus = CreateMenus(schoolController, studentCourseController);
+                menuController.DisplayMenu(Menus.MainMenu);
             }
             // else login failed and application terminates
 
         }
 
         // build the menu's
-        private List<Menu> CreateMenus(SchoolController schoolController)
+        private List<Menu> CreateMenus(SchoolController schoolController, StudentCourseController studentCourseController)
         {
             return new List<Menu>()
             {
@@ -55,13 +62,19 @@ namespace studenten_voortgang_applicatie
                 {
                     MenuId = Menus.MainMenu,
                     Name = "Main menu",
-                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
+                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Student, UserRoles.Teacher, UserRoles.Employee, UserRoles.Guardian, UserRoles.Administrator }, // main menu is available to everyone
                     MenuItems = new List<MenuItem> ()
                     {
                         new MenuItem()
                         {
                             Name = "Student administration",
                             SubMenuId = Menus.StudentAdministration,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Teacher administration",
+                            SubMenuId = Menus.TeacherAdministration,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
@@ -75,6 +88,12 @@ namespace studenten_voortgang_applicatie
                             Name = "Enrollment administration",
                             SubMenuId = Menus.EnrollmentAdministration,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Student menu",
+                            SubMenuId = Menus.StudentMenu,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
                         }
                     }
                 },
@@ -119,6 +138,45 @@ namespace studenten_voortgang_applicatie
                 },
                 new Menu()
                 {
+                    MenuId = Menus.TeacherAdministration,
+                    Name = "Teacher administration",
+                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
+                    MenuItems = new List<MenuItem> ()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "List teachers",
+                            Callback = schoolController.DisplayAllTeachers,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Find teacher",
+                            Callback = schoolController.DisplayTeacherByEmployeeNumber,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Add teacher",
+                            Callback = schoolController.AddTeacher,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Remove teacher",
+                            Callback = schoolController.RemoveTeacher,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Edit teacher",
+                            Callback = schoolController.EditTeacher,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        }
+                    }
+                },
+                new Menu()
+                {
                     MenuId = Menus.CourseAdministration,
                     Name = "Course administration",
                     AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
@@ -153,6 +211,12 @@ namespace studenten_voortgang_applicatie
                             Name = "Edit course",
                             Callback = schoolController.EditCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Assign teacher",
+                            Callback = schoolController.AssignTeacherToCourse,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         }
                     }
                 },
@@ -163,36 +227,82 @@ namespace studenten_voortgang_applicatie
                     AvailableToUserRoles = new List<UserRoles> () { UserRoles.Employee },
                     MenuItems = new List<MenuItem> ()
                     {
+
                         new MenuItem()
                         {
-                            Name = "List enrollments by student",
+                            Name = "List all enrollments by student",
                             Callback = schoolController.DisplayAllEnrollmentsByStudent,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Find enrollment",
-                            Callback = schoolController.DisplayCourseByCode,
+                            Name = "List all enrollments by course",
+                            Callback = schoolController.DisplayAllEnrollmentsByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Add enrollment",
-                            Callback = schoolController.AddCourse,
+                            Name = "Find enrollments by student",
+                            Callback = schoolController.DisplayEnrollmentsByStudent,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
-                            Name = "Remove enrollment",
-                            Callback = schoolController.RemoveCourse,
+                            Name = "Find enrollments by course ",
+                            Callback = schoolController.DisplayEnrollmentsByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
-                        }//,
-                        //new MenuItem()
-                        //{
-                        //    Name = "Edit course",
-                        //    Callback = schoolController.EditCourse,
-                        //    AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
-                        //}
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Enroll student to course",
+                            Callback = schoolController.EnrollStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Unenroll student from course",
+                            Callback = schoolController.UnenrollStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
+                        }
+                    }
+                },
+                new Menu()
+                {
+                    MenuId = Menus.StudentMenu,
+                    Name = "Student menu",
+                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Student },
+                    MenuItems = new List<MenuItem> ()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "List all courses",
+                            Callback = studentCourseController.ListCourses,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "List my enrollments",
+                            Callback = studentCourseController.ListEnrollments,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Ernoll in a course",
+                            Callback = studentCourseController.Enroll,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },                        
+                        new MenuItem()
+                        {
+                            Name = "Unenroll from a course",
+                            Callback = studentCourseController.Unenroll,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "List my results",
+                            Callback = studentCourseController.ListResults,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        }
                     }
                 }
             };
@@ -201,21 +311,33 @@ namespace studenten_voortgang_applicatie
         private School CreateSampleData()
         {
             School school = new School("Curio", "25LX");
-            Employee employee = new Employee() { FirstName = "first", LastName = "last" };
-            employee.Username = "jimmy";
-            employee.Password = "1234"; // no try catch in sample data
-            employee.EmployeeNumber = "1";
-            school.AddEmployee(employee);
 
-            Student student1 = new Student() { LastName = "Jansen", FirstName = "Jan" };
+            Employee employee1 = new Employee() { FirstName = "first", LastName = "last" };
+            employee1.Username = "jimmy";
+            employee1.Password = "1234"; // no try catch in sample data
+            school.AddEmployee(employee1);
+
+            Student student1 = new Student() { LastName = "Student", FirstName = "Jan" };
+            student1.Username = "stud";
+            student1.Password = "1234";
             school.Students.Add(student1);
-            Course course1 = new Course() { Code = "EN", Description = "English as a second language", Name = "English", Seats = 30 };
-            school.Courses.Add(course1);
-            course1.Enroll(student1 );
 
+            Student student2 = new Student() { LastName = "Student2", FirstName = "Jan" }; 
+            school.Students.Add(student2);
+
+            Course course1 = new Course() { Code = "NL", Description = "Dutch as a second language", Name = "Dutch", Seats = 10 };
+            school.Courses.Add(course1);
+            course1.Enroll(student1);
+
+            Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 1 };
+            school.Courses.Add(course2);
+            course2.Enroll(student1);
+
+            Teacher teacher1 = new Teacher() { LastName = "Docent", FirstName = "Piet" };
+            school.Teachers.Add(teacher1);
+            course1.Teacher = teacher1;
                  
             return school;
-
         }
     }
 }

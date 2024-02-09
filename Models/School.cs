@@ -13,6 +13,7 @@ namespace studenten_voortgang_applicatie.Models
 
 
         public HashSet<Employee> Employees { get; private set; }
+        // teachers are employees, but its easier to keep them seperated
         public HashSet<Teacher> Teachers { get; private set; }
         public HashSet<Student> Students { get; private set; }        
         public HashSet<Parent> Parents { get; private set; }

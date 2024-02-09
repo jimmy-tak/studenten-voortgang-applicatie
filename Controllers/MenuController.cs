@@ -18,11 +18,6 @@ namespace studenten_voortgang_applicatie.Controllers
         // keep track of the menu's the user has visited so you can return to the previous menu's
         private Stack<Menu> _menuBreadCrumbTrail = new Stack<Menu>();
 
-#if DEBUG
-        static int RecursionCounter = 0;
-#endif
-
-
         public MenuController(Person user, MenuView menuView)
         {
             _user = user;
@@ -31,9 +26,6 @@ namespace studenten_voortgang_applicatie.Controllers
 
         public void DisplayMenu(Menus menuId)
         {
-#if DEBUG
-            Debug.WriteLine($"DisplayMenu recursion counter: {++RecursionCounter}");
-#endif
 
             {
                 MenuItem chosenMenuItem = _menuView.DisplayMenu(Menus.Where(menu => menu.MenuId == menuId).First(), _user); // link makes finding items in collections very easy               
@@ -67,9 +59,7 @@ namespace studenten_voortgang_applicatie.Controllers
                     }
                 }
             }
-#if DEBUG
-            RecursionCounter--;
-#endif
+
         }
 
 

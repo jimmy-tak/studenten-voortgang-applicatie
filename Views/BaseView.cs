@@ -9,6 +9,21 @@ namespace studenten_voortgang_applicatie.Views
 {
     internal abstract class BaseView
     {
+        // clears the console
+        public void Clear()
+        {
+            Console.Clear();
+        }
+
+        // writes a number of emtpy lines
+        public void DisplayEmptyLine(int count)
+        {
+            for(int i = 0; i < count; i++)
+            {
+                Console.WriteLine();
+            }
+        }
+
         // display a press any key to continue message
         public void DisplayPressAnyKeyToContinueMessage()
         {

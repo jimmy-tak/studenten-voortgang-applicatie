@@ -93,7 +93,7 @@ namespace studenten_voortgang_applicatie.Models
             return _password == password;
         }
 
-        protected void addRole(UserRoles role)
+        public void AddRole(UserRoles role)
         {
             _roles.Add(role);
         }
