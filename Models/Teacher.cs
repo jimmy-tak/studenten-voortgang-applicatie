@@ -9,9 +9,9 @@ namespace studenten_voortgang_applicatie.Models
 {
     internal class Teacher : Employee
     {
-        public Teacher(string firstName, string lastName) : base(firstName, lastName)
-        {
-            addRole(UserRoles.Teacher);
-        }
+        //public Teacher(string firstName, string lastName) : base(firstName, lastName)
+        //{
+        //    addRole(UserRoles.Teacher);
+        //}
     }
 }

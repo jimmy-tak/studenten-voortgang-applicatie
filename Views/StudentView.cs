@@ -25,7 +25,8 @@ namespace studenten_voortgang_applicatie.Views
             Console.WriteLine($"Student number\t: {student.StudentNumber}");
             Console.WriteLine($"Last name\t: {student.LastName}");
             Console.WriteLine($"First name\t: {student.FirstName}");
-            Console.WriteLine($"Date of birth\t: {student.DateOfBirth.ToString("d-M-yyyy")}");
+            string dateOfBearth = student.DateOfBirth != DateTime.MinValue ? student.DateOfBirth.ToString("d-M-yyyy") : "";
+            Console.WriteLine($"Date of birth\t: {dateOfBearth}");
             Console.WriteLine($"Email\t\t: {student.Email}");
             Console.WriteLine($"Street\t\t: {student.Street}");
             Console.WriteLine($"Postal code\t: {student.PostalCode}");
@@ -33,14 +34,6 @@ namespace studenten_voortgang_applicatie.Views
             Console.WriteLine($"Username\t: {student.Username}");
             DisplayPressAnyKeyToContinueMessage();
 
-        }
-
-        // display a single student and wait
-        public void DisplayStudentAndWait(Student student)
-        {
-            Console.Clear();
-            DisplayStudent(student);
-            DisplayPressAnyKeyToContinueMessage();
         }
 
         // display all students

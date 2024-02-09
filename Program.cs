@@ -130,25 +130,25 @@ namespace studenten_voortgang_applicatie
                         new MenuItem()
                         {
                             Name = "Find course",
-                            Callback = schoolController.DisplayStudentByStudentNumber,
+                            Callback = schoolController.DisplayCourseByCode,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
                             Name = "Add course",
-                            Callback = schoolController.AddStudent,
+                            Callback = schoolController.AddCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
                             Name = "Remove course",
-                            Callback = schoolController.RemoveStudent,
+                            Callback = schoolController.RemoveCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         },
                         new MenuItem()
                         {
                             Name = "Edit course",
-                            Callback = schoolController.EditStudent,
+                            Callback = schoolController.EditCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Employee }
                         }
                     }
@@ -159,7 +159,7 @@ namespace studenten_voortgang_applicatie
         private School CreateSampleData()
         {
             School school = new School("Curio", "25LX");
-            Employee employee = new Employee("Jimmy", "Tak");
+            Employee employee = new Employee() { FirstName = "first", LastName = "last" };
             employee.Username = "jimmy";
             employee.Password = "1234"; // no try catch in sample data
             employee.EmployeeNumber = "1";

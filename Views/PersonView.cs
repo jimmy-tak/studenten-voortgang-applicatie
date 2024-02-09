@@ -15,15 +15,13 @@ namespace studenten_voortgang_applicatie.Views
             string lastName, firstName, email, street, postalCode, city;
             DateTime dateOfBirth;
 
-            lastName = GetStringInput("Last name");
-            firstName = GetStringInput("First name");
+            lastName = GetStringInput("Last name (required)", true);
+            firstName = GetStringInput("First name (required)", true);
             dateOfBirth = GetDateTimeInput("Date of birth");
             email = GetStringInput("Email");
             street = GetStringInput("Street");
             postalCode = GetStringInput("Postal code");
             city = GetStringInput("city");
-
-            Debug.WriteLine($"\"{email}\"");
 
             return new Person()
             {

@@ -30,16 +30,16 @@ namespace studenten_voortgang_applicatie.Controllers
             _studentView.DisplayStudents(_school.Students);
         }
 
-        // search for a student by student number
-        private Student FindStudentByStudentNumber()
-        {
-            return _studentView.FindStudentByStudentNumber(_school.Students);
-        }
+        //// search for a student by student number
+        //private Student FindStudentByStudentNumber()
+        //{
+        //    return _studentView.FindStudentByStudentNumber(_school.Students);
+        //}
 
         // display a selected student
         public void DisplayStudentByStudentNumber()
         {
-            _studentView.DisplayStudentDetails (_studentView.FindStudentByStudentNumber(_school.Students));
+            _studentView.DisplayStudentDetails(_studentView.FindStudentByStudentNumber(_school.Students));
         }  
 
         // remove a selected student
@@ -70,24 +70,24 @@ namespace studenten_voortgang_applicatie.Controllers
             _courseView.DisplayCourses(_school.Courses);
         }
 
-        //// search for a course by code
-        //private Course FindCourseByCode()
-        //{
-        //    return _courseView.FindCourseByCourseNumber(_school.Courses);
-        //}
+        // search for a course by code
+        private Course FindCourseByCode()
+        {
+            return _courseView.FindCourseByCode(_school.Courses);
+        }
 
-        //// display a selected course
-        //public void DisplayCourseByCode()
-        //{
-        //    _courseView.DisplayCourseDetails(_courseView.FindCourseByCourseNumber(_school.Courses));
-        //}
+        // display a selected course
+        public void DisplayCourseByCode()
+        {
+            _courseView.DisplayCourseDetails(_courseView.FindCourseByCode(_school.Courses));
+        }
 
-        //// remove a selected course
-        //public void RemoveCourse()
-        //{
-        //    _school.Courses.Remove(_courseView.FindCourseByCourseNumber(_school.Courses));
-        //    _courseView.DisplayPressAnyKeyToContinueMessage("Course removed");
-        //}
+        // remove a selected course
+        public void RemoveCourse()
+        {
+            _school.Courses.Remove(_courseView.FindCourseByCode(_school.Courses));
+            _courseView.DisplayPressAnyKeyToContinueMessage("Course removed");
+        }
 
         // add a new course
         public void AddCourse()
@@ -95,10 +95,10 @@ namespace studenten_voortgang_applicatie.Controllers
             _school.Courses.Add(_courseView.AddCourse());
         }
 
-        //// edit a selected course
-        //public void EditCourse()
-        //{
-        //    _courseView.EditCourse(_courseView.FindCourseByCourseNumber(_school.Courses));
-        //}
+        // edit a selected course
+        public void EditCourse()
+        {
+            _courseView.EditCourse(_courseView.FindCourseByCode(_school.Courses));
+        }
     }
 }

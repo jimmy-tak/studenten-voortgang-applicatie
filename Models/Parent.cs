@@ -11,9 +11,9 @@ namespace studenten_voortgang_applicatie.Models
     {
         private HashSet<Student> children;
 
-        public Parent(string firstName, string lastName) : base(firstName, lastName)
-        {
-            addRole(UserRoles.Guardian);
-        }
+        //public Parent(string firstName, string lastName) : base(firstName, lastName)
+        //{
+        //    addRole(UserRoles.Guardian);
+        //}
     }
 }

@@ -12,10 +12,10 @@ namespace studenten_voortgang_applicatie.Models
 
         public string EmployeeNumber { get; set; }
 
-        public Employee(string firstName, string lastName) : base (firstName, lastName)
-        {
-            addRole(UserRoles.Employee);
-        }
+        //public Employee(string firstName, string lastName) : base (firstName, lastName)
+        //{
+        //    addRole(UserRoles.Employee);
+        //}
 
     }
 }

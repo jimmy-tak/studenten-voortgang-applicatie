@@ -76,12 +76,12 @@ namespace studenten_voortgang_applicatie.Models
             _roles = new List<UserRoles>();
         }
 
-        public Person(string firstName, string lastName) : this()
-        {
-            FirstName = firstName;
-            LastName = lastName;
+        //public Person(string firstName, string lastName) : this()
+        //{
+        //    FirstName = firstName;
+        //    LastName = lastName;
 
-        }
+        //}
 
         public bool HasAccount()
         {

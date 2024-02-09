@@ -24,20 +24,30 @@ namespace studenten_voortgang_applicatie.Views
         }
 
         // get a string input
-        protected string GetStringInput(string text) // maybe use generics
+        protected string GetStringInput(string text, bool required = false) // maybe use generics
         {
-            Console.Write($"{text}: ");
-            return Console.ReadLine();
+            string input;
+            do
+            {
+                Console.Write($"{text}: ");
+                input = Console.ReadLine();
+            }
+            while (required && input == "");
+
+            return input;
         }
 
-        protected int GetIntInput(string text)
+        protected int GetIntInput(string text, bool required = false)
         {
+            string input;
             int number;
             bool success;
             do
             {
                 Console.Write($"{text}: ");
-                success = int.TryParse(Console.ReadLine(), out number);
+                input = Console.ReadLine();
+                if (input == "" && required == false) return int.MinValue; // so we can skip entering int
+                success = int.TryParse(input, out number);
             }
             while(!success);
 
@@ -45,16 +55,17 @@ namespace studenten_voortgang_applicatie.Views
         }
 
         // get a datetime input
-        protected DateTime GetDateTimeInput(string text)
+        protected DateTime GetDateTimeInput(string text, bool required = false)
         {
+            string input;
             DateTime dateTime;
             bool success;
             do
             {
                 Console.Write($"{text} (d-M-yyyy): ");
-                string inputDateTime = Console.ReadLine();
-                if (inputDateTime == "") return DateTime.MinValue; // so we can skip entering datetime
-                success = DateTime.TryParseExact(inputDateTime, "d-M-yyyy", new CultureInfo("nl-NL"), DateTimeStyles.None, out dateTime);
+                input = Console.ReadLine();
+                if (input == "" && required == false) return DateTime.MinValue; // so we can skip entering datetime
+                success = DateTime.TryParseExact(input, "d-M-yyyy", new CultureInfo("nl-NL"), DateTimeStyles.None, out dateTime);
             }
             while (!success);
 
