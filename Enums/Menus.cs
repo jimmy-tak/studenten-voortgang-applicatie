@@ -10,7 +10,8 @@ namespace studenten_voortgang_applicatie.Enums
     {
         MainMenu,
         StudentAdministration,
-        CourseAdministration
+        CourseAdministration,
+        EnrollmentAdministration
 
     }
 }

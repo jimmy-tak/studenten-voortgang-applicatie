@@ -12,12 +12,15 @@ namespace studenten_voortgang_applicatie.Models
     {
         public int StudentNumber { get; set; }
 
+        public HashSet<Course> Courses { get; private set; }
+
         public static int lastStudentNumber = 0;
 
         public Student()
         {
             StudentNumber = ++Student.lastStudentNumber;
             addRole(UserRoles.Student);
+            Courses = new HashSet<Course>();
         }
 
         // create a student based on a person

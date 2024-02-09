@@ -14,7 +14,7 @@ namespace studenten_voortgang_applicatie.Views
 
 
         // display a single student
-        private void DisplayStudent(Student student)
+        public void DisplayStudent(Student student)
         {
             Console.WriteLine($"{student.StudentNumber}\t{student.FullName} ({student.DateOfBirth.ToString("d-M-yyyy")})");
         }
@@ -76,7 +76,7 @@ namespace studenten_voortgang_applicatie.Views
         {
             Console.Clear();
             Console.WriteLine("Please enter the details of the student to add\n");
-            Person person = CreatePerson();
+            Person person = GetPersonDetails(true);
             DisplayPressAnyKeyToContinueMessage();
             return new Student(person);
            
@@ -87,7 +87,7 @@ namespace studenten_voortgang_applicatie.Views
         {
             Console.Clear();
             Console.WriteLine("Please enter the details of the student to edit. Leave emtpy to not change\n");
-            Person person = CreatePerson();
+            Person person = GetPersonDetails();
             // set student properties to person properties if they have changed
             student.FirstName = person.FirstName != "" ? person.FirstName : student.FirstName;
             student.LastName = person.LastName != "" ? person.LastName : student.LastName;

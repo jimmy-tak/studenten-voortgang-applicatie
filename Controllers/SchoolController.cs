@@ -9,20 +9,26 @@ using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Controllers
 {
+    // SchoolController contains most business logic
     internal class SchoolController
     {
+        // models
         private School _school;
+        // views
         private StudentView _studentView;
         private CourseView _courseView;
+        private EnrollmentView _enrollmentView;
 
-        public SchoolController(School school, StudentView studentView, CourseView courseView)
+
+        public SchoolController(School school, StudentView studentView, CourseView courseView, EnrollmentView enrollmentView)
         {
             _school = school;
             _studentView = studentView;
             _courseView = courseView;
+            _enrollmentView = enrollmentView;
         }
 
-        // students related operations
+        // Student related operations //
 
         // display a list of all students
         public void DisplayAllStudents()
@@ -30,11 +36,6 @@ namespace studenten_voortgang_applicatie.Controllers
             _studentView.DisplayStudents(_school.Students);
         }
 
-        //// search for a student by student number
-        //private Student FindStudentByStudentNumber()
-        //{
-        //    return _studentView.FindStudentByStudentNumber(_school.Students);
-        //}
 
         // display a selected student
         public void DisplayStudentByStudentNumber()
@@ -62,7 +63,7 @@ namespace studenten_voortgang_applicatie.Controllers
         }
 
 
-        // course related operations
+        // Course related methods //
 
         // display a list of all courses
         public void DisplayAllCourses()
@@ -99,6 +100,14 @@ namespace studenten_voortgang_applicatie.Controllers
         public void EditCourse()
         {
             _courseView.EditCourse(_courseView.FindCourseByCode(_school.Courses));
+        }
+
+        // Enrollment related methods //
+
+        // display all enrollments
+        public void DisplayAllEnrollmentsByStudent()
+        {
+            _enrollmentView.DisplayAllEnrollmentsByStudent(_studentView.FindStudentByStudentNumber(_school.Students));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace studenten_voortgang_applicatie.Views
     {
 
         // display a single course
-        private void DisplayCourse(Course Course)
+        public void DisplayCourse(Course Course)
         {
             Console.WriteLine($"{Course.Code}\t{Course.Name} ({Course.Description})");
         }
@@ -75,14 +75,14 @@ namespace studenten_voortgang_applicatie.Views
             }
         }
 
-        private Course CreateCourse()
+        private Course GetCourseDetails(bool required = false) // dont ask for required fields when editing
         {
             string name, description, code;
             int seats;
 
             name = GetStringInput("Name");
             description = GetStringInput("Description");
-            code = GetStringInput("Code (required)", true);
+            code = GetStringInput("Code (required)", required);
             seats = GetIntInput("Seats");
        
             return new Course()
@@ -101,7 +101,7 @@ namespace studenten_voortgang_applicatie.Views
             Console.Clear();
             Console.WriteLine("Please enter the details of the Course to add\n");
 
-            Course course = CreateCourse();
+            Course course = GetCourseDetails(true);
             DisplayPressAnyKeyToContinueMessage();
 
             return course;
@@ -112,7 +112,7 @@ namespace studenten_voortgang_applicatie.Views
         {
             Console.Clear();
             Console.WriteLine("Please enter the details of the Course to edit. Leave emtpy to not change\n");
-            Course newCourse = CreateCourse();
+            Course newCourse = GetCourseDetails();
             // set Course properties to newCourse properties if they have changed
             course.Code = course.Code != "" ? newCourse.Code : course.Code;
             course.Description = course.Description != "" ? newCourse.Description : course.Description;

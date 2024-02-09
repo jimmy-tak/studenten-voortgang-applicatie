@@ -27,9 +27,10 @@ namespace studenten_voortgang_applicatie.Views
         protected string GetStringInput(string text, bool required = false) // maybe use generics
         {
             string input;
+            string requiredNotification = required ? " (required)" : string.Empty;
             do
             {
-                Console.Write($"{text}: ");
+                Console.Write($"{text}{requiredNotification}: ");
                 input = Console.ReadLine();
             }
             while (required && input == "");

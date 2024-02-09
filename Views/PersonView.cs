@@ -10,13 +10,13 @@ namespace studenten_voortgang_applicatie.Views
 {
     internal class PersonView : BaseView
     {
-        public Person CreatePerson()
+        public Person GetPersonDetails(bool required = false)
         {
             string lastName, firstName, email, street, postalCode, city;
             DateTime dateOfBirth;
 
-            lastName = GetStringInput("Last name (required)", true);
-            firstName = GetStringInput("First name (required)", true);
+            lastName = GetStringInput("Last name", required);
+            firstName = GetStringInput("First name", required);
             dateOfBirth = GetDateTimeInput("Date of birth");
             email = GetStringInput("Email");
             street = GetStringInput("Street");

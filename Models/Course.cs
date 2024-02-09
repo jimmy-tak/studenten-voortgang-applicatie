@@ -15,41 +15,51 @@ namespace studenten_voortgang_applicatie.Models
         public int Seats { get; set; }
 
         // set containing enrolled students
-        private HashSet<Student> students;
+        public HashSet<Student> Students { get; private set; }
 
         // constructor
-        public Course() { }
+        public Course() {
+            Students = new HashSet<Student>();
+        }
 
         // add a student to the course
         public void Enroll (Student student)
         {
             if (student == null) return;
-            if (students == null) students = new HashSet<Student>();
-            students.Add(student);
+            if(Students.Count <= Seats)
+            {
+                Students.Add(student);
+                student.Courses.Add(this); // relation is two-way
+            }
+            else
+            {
+                throw new ArgumentException("Course if fully booked");
+            }
         }
 
-        // add multiple students to the course
-        // #not_implemented
-        public void Enroll(HashSet<Student> students)
-        {
-            if (students == null) return;
-            if (this.students == null) this.students = new HashSet<Student>();
-            // ???
-        }
+        //// add multiple students to the course
+        //// #not_implemented
+        //public void Enroll(HashSet<Student> students)
+        //{
+        //    if (students == null) return;
+        //    if (this.Students == null) this.Students = new HashSet<Student>();
+        //    // ???
+        //}
 
         // remove a student from the course
         public void UnEnroll (Student student)
         {
             if (student == null) return;
-            if (students == null) return;
-            students.Remove(student);
+            if (Students == null) return;
+            student.Courses.Remove(this);
+            Students.Remove(student);
         }
 
         // return the number of enrolled students
-        public int numEnrollments()
+        public int CountEnrollments()
         {
-            if(students == null) return 0;
-            return students.Count();
+            if(Students == null) return 0;
+            return Students.Count;
         }
     }
 }

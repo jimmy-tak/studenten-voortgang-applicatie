@@ -11,11 +11,12 @@ namespace studenten_voortgang_applicatie.Models
         public string Name { get; set; }
         public string BrinNummer { get; set; }
 
+
         public HashSet<Employee> Employees { get; private set; }
         public HashSet<Teacher> Teachers { get; private set; }
         public HashSet<Student> Students { get; private set; }        
         public HashSet<Parent> Parents { get; private set; }
-        public HashSet<Course> Courses { get; private set;  }
+        public HashSet<Course> Courses { get; private set; }
         public HashSet<Person> Users
         {
             get
@@ -39,6 +40,7 @@ namespace studenten_voortgang_applicatie.Models
             Students = new HashSet<Student>();
             Parents = new HashSet<Parent>();
             Courses = new HashSet<Course>();
+            //Enrollments = new HashSet<Enrollment>();
         }
 
         public void AddEmployee(Employee employee)
