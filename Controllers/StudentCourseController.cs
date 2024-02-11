@@ -79,12 +79,18 @@ namespace studenten_voortgang_applicatie.Controllers
             _enrollmentView.DisplayPressAnyKeyToContinueMessage($"You are now unenrolled from course {course.Name}");
         }
 
-        public void ListResults()
+        public void ListAllGrades()
         {
-
+            _studentView.Clear();
+            _studentView.ListAllGrades(_student);
+            _studentView.DisplayPressAnyKeyToContinueMessage();
         }
 
-
-    }
-                        
+        public void ListGradesByCourse()
+        {
+            _studentView.Clear();
+            _studentView.ListGradesByCourse(_student, _courseView.FindCourseByCode(_student.Courses));
+            _studentView.DisplayPressAnyKeyToContinueMessage();
+        }
+    }                        
 }

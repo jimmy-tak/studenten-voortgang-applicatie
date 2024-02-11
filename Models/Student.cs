@@ -1,6 +1,8 @@
 ﻿using studenten_voortgang_applicatie.Enums;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,8 +13,9 @@ namespace studenten_voortgang_applicatie.Models
     internal class Student : Person
     {
         public int StudentNumber { get; set; }
-
-        public HashSet<Course> Courses { get; private set; }
+        public HashSet<Course> Courses { get; private set; } = new HashSet<Course>();
+        private List<Result> _results = new List<Result>();
+        public ReadOnlyCollection<Result> Results { get { return _results.AsReadOnly(); } } // we dont want anyone adding results to the collection manually
 
         public static int lastStudentNumber = 0;
 
@@ -20,7 +23,6 @@ namespace studenten_voortgang_applicatie.Models
         {
             StudentNumber = ++Student.lastStudentNumber;
             AddRole(UserRoles.Student);
-            Courses = new HashSet<Course>();
         }
 
         // create a student based on a person
@@ -35,7 +37,21 @@ namespace studenten_voortgang_applicatie.Models
             City = person.City;
         }
 
-
+        public void AddGrade(Course course, float grade)
+        {
+            if(!Courses.Contains(course))
+            {
+                throw new ArgumentException("Student is not enrolled in that course", nameof(course));
+            }
+            else if (grade < 0f || grade > 10f)
+            {
+                throw new ArgumentOutOfRangeException(nameof(grade), "Grade must be between 0 and 10");
+            }
+            else
+            {
+                _results.Add(new Result(course, grade));
+            }
+        }
 
     }
 }

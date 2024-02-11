@@ -14,8 +14,8 @@ namespace studenten_voortgang_applicatie.Views
             string username, password;
 
             Console.Clear();
-            username = GetStringInput("username");
-            password = GetStringInput("password");
+            username = GetStringInput("username", true);
+            password = GetStringInput("password", true);
 
             return (username, password); // tuple
         }

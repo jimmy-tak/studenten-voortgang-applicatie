@@ -49,5 +49,7 @@ namespace studenten_voortgang_applicatie.Models
             student.Courses.Remove(this);
             Students.Remove(student);
         }
+
+
     }
 }

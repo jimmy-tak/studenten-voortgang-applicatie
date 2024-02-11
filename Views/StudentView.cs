@@ -97,7 +97,36 @@ namespace studenten_voortgang_applicatie.Views
             student.PostalCode = person.PostalCode != "" ? person.PostalCode : student.PostalCode;
             student.City = person.City != "" ? person.City : student.City;
             DisplayPressAnyKeyToContinueMessage();
+        }
 
+
+        // result (grade) related methods
+        public void DisplayGrade(Result result)
+        {
+            Console.WriteLine($"{result.Course.Name}\t{result.Grade:0.00}");
+        }
+
+        public void ListAllGrades(Student student)
+        {
+            float total = 0;
+            foreach(Result result in student.Results)
+            {
+                DisplayGrade(result);
+                total += result.Grade;
+            }
+            Console.WriteLine($"Average grade: {total / student.Results.Count:0.00}");
+        }
+
+        public void ListGradesByCourse(Student student, Course course)
+        {
+            float total = 0;
+            var results = student.Results.Where(result => result.Course == course);
+            foreach(Result result in results)
+            {
+                DisplayGrade(result);
+                total += result.Grade;
+            }
+            Console.WriteLine($"Average grade: {total / results.Count():0.00}");
         }
     }
 }

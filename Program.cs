@@ -299,8 +299,14 @@ namespace studenten_voortgang_applicatie
                         },
                         new MenuItem()
                         {
-                            Name = "List my results",
-                            Callback = studentCourseController.ListResults,
+                            Name = "List my grades",
+                            Callback = studentCourseController.ListAllGrades,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "List my grades for a particular course",
+                            Callback = studentCourseController.ListGradesByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
                         }
                     }
@@ -322,16 +328,28 @@ namespace studenten_voortgang_applicatie
             student1.Password = "1234";
             school.Students.Add(student1);
 
+
             Student student2 = new Student() { LastName = "Student2", FirstName = "Jan" }; 
             school.Students.Add(student2);
 
             Course course1 = new Course() { Code = "NL", Description = "Dutch as a second language", Name = "Dutch", Seats = 10 };
             school.Courses.Add(course1);
             course1.Enroll(student1);
+            
 
-            Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 1 };
+            Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 2 };
             school.Courses.Add(course2);
+            course2.Enroll(student2);
+
             course2.Enroll(student1);
+
+            student1.AddGrade(course1, 8.9f);
+            student1.AddGrade(course1, 4.9f);
+            student1.AddGrade(course2, 5.3f);
+            student1.AddGrade(course2, 8.2f);
+            student1.AddGrade(course2, 7.3f);
+
+
 
             Teacher teacher1 = new Teacher() { LastName = "Docent", FirstName = "Piet" };
             school.Teachers.Add(teacher1);
