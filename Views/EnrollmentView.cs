@@ -24,7 +24,7 @@ namespace studenten_voortgang_applicatie.Views
         public void DisplayEnrollmentsByCourse(Course course)
         {
             _courseView.DisplayCourse(course);
-            Console.WriteLine($"Seats: ({course.CountEnrollments()} of {course.Seats})\n");
+            Console.WriteLine($"Seats: ({course.Students.Count} of {course.Seats})\n");
 
             foreach (Student student in course.Students)
             {
