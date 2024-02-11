@@ -33,20 +33,25 @@ namespace studenten_voortgang_applicatie
             {
                 // create views
                 StudentView studentView = new StudentView();
-                CourseView courseView = new CourseView();
+                CourseView courseView = new CourseView(studentView);
                 EnrollmentView enrollmentView = new EnrollmentView(studentView, courseView);
                 TeacherView teacherView = new TeacherView();
                 // create controllers
                 SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView);
-                // studentcontroller is only needed when student is logged on. there's probably a better way to do this
+                // student and teacher controllers are only needed when student or teacher is logged on. there's probably a better way to do this
                 StudentCourseController studentCourseController = new StudentCourseController();
+                TeacherCourseController teacherCourseController = new TeacherCourseController();
                 if (loggedOnUser.HasRole(UserRoles.Student))
                 {
                     studentCourseController = new StudentCourseController(school, (Student)loggedOnUser, studentView, courseView, enrollmentView);
                 }
+                else if (loggedOnUser.HasRole(UserRoles.Teacher))
+                {
+                    teacherCourseController = new TeacherCourseController(school, (Teacher)loggedOnUser, studentView, courseView, enrollmentView);
+                }
                 MenuController menuController = new MenuController(loggedOnUser, new MenuView());
                 // create menus
-                menuController.Menus = CreateMenus(schoolController, studentCourseController);
+                menuController.Menus = CreateMenus(schoolController, studentCourseController, teacherCourseController);
                 menuController.DisplayMenu(Menus.MainMenu);
             }
             // else login failed and application terminates
@@ -54,7 +59,7 @@ namespace studenten_voortgang_applicatie
         }
 
         // build the menu's
-        private List<Menu> CreateMenus(SchoolController schoolController, StudentCourseController studentCourseController)
+        private List<Menu> CreateMenus(SchoolController schoolController, StudentCourseController studentCourseController, TeacherCourseController teacherCourseController)
         {
             return new List<Menu>()
             {
@@ -308,6 +313,27 @@ namespace studenten_voortgang_applicatie
                             Name = "List my grades for a particular course",
                             Callback = studentCourseController.ListGradesByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        }
+                    }
+                },
+                new Menu()
+                {
+                    MenuId = Menus.TeacherMenu,
+                    Name = "Teacher menu",
+                    AvailableToUserRoles = new List<UserRoles> () { UserRoles.Teacher },
+                    MenuItems = new List<MenuItem> ()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "Add a grade for a student",
+                            Callback = teacherCourseController.AddGradeByStudent,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Teacher }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Register attendance for a class",
+                            Callback = teacherCourseController.RegisterAttendanceByCourse,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Teacher }
                         }
                     }
                 }

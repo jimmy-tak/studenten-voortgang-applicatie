@@ -12,6 +12,13 @@ namespace studenten_voortgang_applicatie.Views
     internal class CourseView : BaseView
     {
 
+        private StudentView _studentView;
+
+        public CourseView(StudentView studentView)
+        {
+            _studentView = studentView;
+        }
+
         // display a single course
         public void DisplayCourse(Course Course)
         {
@@ -120,6 +127,45 @@ namespace studenten_voortgang_applicatie.Views
 
             DisplayPressAnyKeyToContinueMessage();
 
+        }
+
+        public (DateTime, IEnumerable<Student>) GetAttendance(Course course)
+        {
+            DateTime date = GetDateTimeInput("Date", true);
+            List<Student> attendingStudents = new List<Student>();
+
+            //var students = course.Students.ToList();
+            //foreach (var student in students)
+            //{
+            //    Console.WriteLine($"{students.IndexOf(student)}.\t{student.FullName}");
+            //}
+
+            foreach (Student student in course.Students)
+            {
+                _studentView.DisplayStudent(student);
+            }
+
+            string enteredStudentNumbers = GetStringInput("Attending students (student numbers seperated by a comma)", true);
+
+            // convert entered student numbers to ints
+            List<int> attendingStudentNumbers = new List<int>();
+            int i = 0;
+            foreach (string enteredStudentNumber in enteredStudentNumbers.Split(','))
+            {
+                int studentNumberInt = 0;
+                if(int.TryParse(enteredStudentNumber, out studentNumberInt)) {
+                    attendingStudentNumbers[i] = studentNumberInt;
+                    i++;
+                }
+            }
+
+            // lookup each student by number and add to the attening list
+            foreach(int attendingStudentNumber in attendingStudentNumbers)
+            {
+                attendingStudents.Add(course.Students.Single(s => s.StudentNumber == attendingStudentNumber));
+            }
+
+            return (date, attendingStudents);
         }
 
     }

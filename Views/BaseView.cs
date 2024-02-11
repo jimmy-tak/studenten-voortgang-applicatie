@@ -70,6 +70,23 @@ namespace studenten_voortgang_applicatie.Views
             return number;
         }
 
+        protected float GetFloadInput(string text, bool required = false)
+        {
+            string input;
+            float number;
+            bool success;
+            do
+            {
+                Console.Write($"{text}: ");
+                input = Console.ReadLine();
+                if (input == "" && required == false) return float.MinValue; // so we can skip entering int
+                success = float.TryParse(input, out number);
+            }
+            while (!success);
+
+            return number;
+        }
+
         // get a datetime input
         protected DateTime GetDateTimeInput(string text, bool required = false)
         {

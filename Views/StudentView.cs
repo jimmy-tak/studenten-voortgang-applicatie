@@ -50,17 +50,39 @@ namespace studenten_voortgang_applicatie.Views
 
         // find a student
         public Student FindStudentByStudentNumber(HashSet<Student> students)
+        //{
+        //    int studentNumber;
+
+            
+        //    while(true) // while studentNumber is not found
+        //    {
+        //        Console.Clear();
+        //        studentNumber = GetIntInput("Student Number");
+
+        //        var foundStudents = students.Where(student => student.StudentNumber == studentNumber);
+        //        if(foundStudents.Count() > 0) // student found
+        //        {
+        //            return foundStudents.First();
+        //        }
+        //        else
+        //        {
+        //            DisplayPressAnyKeyToContinueMessage("Student not found.");
+        //        }
+        //    }
+        //}
+
+        public Student FindStudentByStudentNumber(IEnumerable<Student> students)
         {
             int studentNumber;
 
-            
-            while(true) // while studentNumber is not found
+
+            while (true) // while studentNumber is not found
             {
                 Console.Clear();
                 studentNumber = GetIntInput("Student Number");
 
                 var foundStudents = students.Where(student => student.StudentNumber == studentNumber);
-                if(foundStudents.Count() > 0) // student found
+                if (foundStudents.Count() > 0) // student found
                 {
                     return foundStudents.First();
                 }
@@ -128,5 +150,26 @@ namespace studenten_voortgang_applicatie.Views
             }
             Console.WriteLine($"Average grade: {total / results.Count():0.00}");
         }
+
+        public float GetGrade()
+        {
+            bool success = false;
+            float grade = 0f;
+            
+            while(!success)
+            {
+                grade = GetFloadInput("Grade", true);
+                if(grade < 0f || grade > 10f)
+                {
+                    success = true;
+                }
+                else
+                {
+                    DisplayPressAnyKeyToContinueMessage("Grade must be between 0 and 10.");
+                }
+            }
+
+            return grade;
+       }
     }
 }

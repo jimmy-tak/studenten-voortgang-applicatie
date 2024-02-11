@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -22,6 +23,9 @@ namespace studenten_voortgang_applicatie.Models
         [JsonIgnore]
         public HashSet<Student> Students { get; private set; } = new HashSet<Student>();
         public Teacher? Teacher { get; set; }
+        // dictionary to register attendance of a class on a particular date
+        private Dictionary<DateTime, List<Student>> _attendance = new Dictionary<DateTime, List<Student>>();
+        public IReadOnlyDictionary<DateTime, List<Student>> Attendance { get => _attendance.AsReadOnly(); }
 
         // constructor
         public Course() {
@@ -48,6 +52,25 @@ namespace studenten_voortgang_applicatie.Models
             if (student == null) return;
             student.Courses.Remove(this);
             Students.Remove(student);
+        }
+
+        public void RegisterAttendance(DateTime date, Student student)
+        {
+            if(_attendance.ContainsKey(date))
+            {
+                _attendance[date].Add(student);
+            }
+            else
+            {
+                _attendance.Add(date, new List<Student>() { student });
+            }
+        }
+
+        public IEnumerable<Student> GetAttendanceForDate(DateTime date)
+        {
+            List<Student> students = new List<Student>();
+            _attendance.TryGetValue(date, out students);
+            return students; // returns empty list if there is no attendance
         }
 
 
