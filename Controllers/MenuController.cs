@@ -21,7 +21,6 @@ namespace studenten_voortgang_applicatie.Controllers
         public MenuController(Person user, MenuView menuView)
         {
             _user = user;
-            Debug.WriteLine($"{user.HasRole(UserRoles.Teacher)}");
             _menuView = menuView;
         }
 

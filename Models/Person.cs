@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 
@@ -15,6 +16,7 @@ namespace studenten_voortgang_applicatie.Models
         // basic personal information
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [JsonIgnore]
         public string FullName { get => LastName + ", " + FirstName; }
         public DateTime DateOfBirth { get; set; }
         public string Street { get; set; }

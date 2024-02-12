@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
@@ -13,10 +14,12 @@ namespace studenten_voortgang_applicatie.Models
     internal class Student : Person
     {
         public int StudentNumber { get; set; }
+        [JsonIgnore]
         public HashSet<Course> Courses { get; private set; } = new HashSet<Course>();
+        [JsonIgnore]
         private List<Result> _results = new List<Result>();
+        [JsonIgnore]
         public ReadOnlyCollection<Result> Results { get { return _results.AsReadOnly(); } } // we dont want anyone adding results to the collection manually
-
         public static int lastStudentNumber = 0;
 
         public Student()

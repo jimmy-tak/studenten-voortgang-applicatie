@@ -37,7 +37,9 @@ namespace studenten_voortgang_applicatie
                 EnrollmentView enrollmentView = new EnrollmentView(studentView, courseView);
                 TeacherView teacherView = new TeacherView(courseView, studentView);
                 // create controllers
-                SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView);
+                FileController fileController = new FileController();
+                fileController.LoadStudents();
+                SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView, fileController);
                 // student and teacher controllers are only needed when student or teacher is logged on. there's probably a better way to do this
                 StudentCourseController studentCourseController = new StudentCourseController();
                 TeacherCourseController teacherCourseController = new TeacherCourseController();
@@ -350,6 +352,11 @@ namespace studenten_voortgang_applicatie
                     }
                 }
             };
+        }
+
+        private void LoadDataFromFile()
+        {
+
         }
 
         private School CreateSampleData()

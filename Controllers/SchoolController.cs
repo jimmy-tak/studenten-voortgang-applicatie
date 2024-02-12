@@ -19,15 +19,18 @@ namespace studenten_voortgang_applicatie.Controllers
         private CourseView _courseView;
         private EnrollmentView _enrollmentView;
         private TeacherView _teacherView;
+        private FileController _fileController;
 
-
-        public SchoolController(School school, StudentView studentView, CourseView courseView, EnrollmentView enrollmentView, TeacherView teacherView)
+        public SchoolController(School school, 
+                                StudentView studentView, CourseView courseView, EnrollmentView enrollmentView, TeacherView teacherView,
+                                FileController fileController)
         {
             _school = school;
             _studentView = studentView;
             _courseView = courseView;
             _enrollmentView = enrollmentView;
             _teacherView = teacherView;
+            _fileController = fileController;
         }
 
         // Student related operations //
@@ -60,7 +63,10 @@ namespace studenten_voortgang_applicatie.Controllers
         // add a new student
         public void AddStudent()
         {
-             _school.Students.Add(_studentView.AddStudent());
+            Student student = _studentView.AddStudent();
+            _school.Students.Add(student);
+            _fileController.WriteStudents(_school.Students);
+
         }
 
         // edit a selected student
