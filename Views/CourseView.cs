@@ -34,6 +34,7 @@ namespace studenten_voortgang_applicatie.Views
             Console.WriteLine($"Description\t: {Course.Description}");
             int seats = Course.Seats > 0 ? Course.Seats : 0;
             Console.WriteLine($"Seats\t\t: {seats}");
+            Console.WriteLine($"Teacher\t\t: {Course.Teacher.FullName ?? ""}");
 
             DisplayPressAnyKeyToContinueMessage();
 
@@ -131,7 +132,7 @@ namespace studenten_voortgang_applicatie.Views
 
         public (DateTime, IEnumerable<Student>) GetAttendance(Course course)
         {
-            DateTime date = GetDateTimeInput("Date", true);
+            DateTime date = BaseView.GetDateTimeInput("Date", true);
             List<Student> attendingStudents = new List<Student>();
 
             //var students = course.Students.ToList();
@@ -148,25 +149,33 @@ namespace studenten_voortgang_applicatie.Views
             string enteredStudentNumbers = GetStringInput("Attending students (student numbers seperated by a comma)", true);
 
             // convert entered student numbers to ints
-            List<int> attendingStudentNumbers = new List<int>();
-            int i = 0;
             foreach (string enteredStudentNumber in enteredStudentNumbers.Split(','))
             {
                 int studentNumberInt = 0;
                 if(int.TryParse(enteredStudentNumber, out studentNumberInt)) {
-                    attendingStudentNumbers[i] = studentNumberInt;
-                    i++;
+                    attendingStudents.Add(course.Students.Single(s => s.StudentNumber == studentNumberInt));
                 }
-            }
-
-            // lookup each student by number and add to the attening list
-            foreach(int attendingStudentNumber in attendingStudentNumbers)
-            {
-                attendingStudents.Add(course.Students.Single(s => s.StudentNumber == attendingStudentNumber));
             }
 
             return (date, attendingStudents);
         }
 
+        public void DisplayAttendance(Course course, IEnumerable<Student> students)
+        {
+            if(students is not null)
+            {
+                DisplayCourse(course);
+                foreach (Student student in students)
+                {
+                    _studentView.DisplayStudent(student);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No attendance registerd");
+            }
+
+
+        }
     }
 }

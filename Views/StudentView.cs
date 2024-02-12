@@ -49,7 +49,7 @@ namespace studenten_voortgang_applicatie.Views
         }
 
         // find a student
-        public Student FindStudentByStudentNumber(HashSet<Student> students)
+        //public Student FindStudentByStudentNumber(HashSet<Student> students)
         //{
         //    int studentNumber;
 

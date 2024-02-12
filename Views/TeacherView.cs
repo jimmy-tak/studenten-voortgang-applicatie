@@ -12,7 +12,14 @@ namespace studenten_voortgang_applicatie.Views
     internal class TeacherView : EmployeeView
 
     {
+        private CourseView _courseView;
+        private StudentView _studentView;
 
+        public TeacherView(CourseView courseView, StudentView studentView)
+        {
+            _courseView = courseView;                
+            _studentView = studentView;
+        }
 
         // display a single teacher
         public void DisplayTeacher(Teacher teacher)
@@ -67,5 +74,7 @@ namespace studenten_voortgang_applicatie.Views
             DisplayPressAnyKeyToContinueMessage();
 
         }
+
+
     }
 }

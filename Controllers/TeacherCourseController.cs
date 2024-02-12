@@ -24,23 +24,37 @@ namespace studenten_voortgang_applicatie.Controllers
 
         }
 
-        public TeacherCourseController(School school, Teacher teacher, StudentView studentView, CourseView courseView, EnrollmentView enrollmentView)
+        public TeacherCourseController(School school, Teacher teacher, StudentView studentView, CourseView courseView, EnrollmentView enrollmentView, TeacherView teacherView)
         {
             _school = school;
             _teacher = teacher;
             _studentView = studentView;
             _courseView = courseView;
             _enrollmentView = enrollmentView;
+            _teacherView = teacherView;
         } 
 
         public void RegisterAttendanceByCourse()
         {
             _courseView.Clear();
             Course course = _courseView.FindCourseByCode(_teacher.Courses);
-            IEnumerable<Student> students = _courseView.GetAttendance();
-            _courseView.DisplayPressAnyKeyToContinueMessage();
+            (DateTime date, IEnumerable<Student> students) = _courseView.GetAttendance(course);
+            foreach(Student student in students)
+            {
+                course.RegisterAttendance(date, student);
+            }
+            _courseView.DisplayPressAnyKeyToContinueMessage($"Attendance registered.");
+        }
 
-
+        public void DisplayAttendanceByCourse()
+        {
+            _courseView.Clear();
+            Course course = _courseView.FindCourseByCode(_teacher.Courses);
+            DateTime date = BaseView.GetDateTimeInput("Date", true);
+            IEnumerable<Student> students = course.GetAttendanceForDate(date);
+            _teacherView.Clear();
+            _courseView.DisplayAttendance(course, students);
+            _teacherView.DisplayPressAnyKeyToContinueMessage();
         }
 
 
@@ -64,5 +78,7 @@ namespace studenten_voortgang_applicatie.Controllers
         {
 
         }
+
+
     }
 }

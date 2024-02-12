@@ -24,8 +24,8 @@ namespace studenten_voortgang_applicatie.Models
         public HashSet<Student> Students { get; private set; } = new HashSet<Student>();
         public Teacher? Teacher { get; set; }
         // dictionary to register attendance of a class on a particular date
-        private Dictionary<DateTime, List<Student>> _attendance = new Dictionary<DateTime, List<Student>>();
-        public IReadOnlyDictionary<DateTime, List<Student>> Attendance { get => _attendance.AsReadOnly(); }
+        private Dictionary<DateTime, HashSet<Student>> _attendance = new Dictionary<DateTime, HashSet<Student>>();
+        public IReadOnlyDictionary<DateTime, HashSet<Student>> Attendance { get => _attendance.AsReadOnly(); }
 
         // constructor
         public Course() {
@@ -58,19 +58,19 @@ namespace studenten_voortgang_applicatie.Models
         {
             if(_attendance.ContainsKey(date))
             {
-                _attendance[date].Add(student);
+                 _attendance[date].Add(student);
             }
             else
             {
-                _attendance.Add(date, new List<Student>() { student });
+                _attendance.Add(date, new HashSet<Student>() { student });
             }
         }
 
-        public IEnumerable<Student> GetAttendanceForDate(DateTime date)
+        public IEnumerable<Student>? GetAttendanceForDate(DateTime date)
         {
-            List<Student> students = new List<Student>();
+            HashSet<Student> students = new HashSet<Student>();
             _attendance.TryGetValue(date, out students);
-            return students; // returns empty list if there is no attendance
+            return students; // returns null if there is no attendance
         }
 
 

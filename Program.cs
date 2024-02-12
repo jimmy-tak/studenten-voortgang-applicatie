@@ -35,7 +35,7 @@ namespace studenten_voortgang_applicatie
                 StudentView studentView = new StudentView();
                 CourseView courseView = new CourseView(studentView);
                 EnrollmentView enrollmentView = new EnrollmentView(studentView, courseView);
-                TeacherView teacherView = new TeacherView();
+                TeacherView teacherView = new TeacherView(courseView, studentView);
                 // create controllers
                 SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView);
                 // student and teacher controllers are only needed when student or teacher is logged on. there's probably a better way to do this
@@ -47,7 +47,7 @@ namespace studenten_voortgang_applicatie
                 }
                 else if (loggedOnUser.HasRole(UserRoles.Teacher))
                 {
-                    teacherCourseController = new TeacherCourseController(school, (Teacher)loggedOnUser, studentView, courseView, enrollmentView);
+                    teacherCourseController = new TeacherCourseController(school, (Teacher)loggedOnUser, studentView, courseView, enrollmentView, teacherView);
                 }
                 MenuController menuController = new MenuController(loggedOnUser, new MenuView());
                 // create menus
@@ -99,6 +99,12 @@ namespace studenten_voortgang_applicatie
                             Name = "Student menu",
                             SubMenuId = Menus.StudentMenu,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Teacher menu",
+                            SubMenuId = Menus.TeacherMenu,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Teacher }
                         }
                     }
                 },
@@ -295,7 +301,7 @@ namespace studenten_voortgang_applicatie
                             Name = "Ernoll in a course",
                             Callback = studentCourseController.Enroll,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Student }
-                        },                        
+                        },
                         new MenuItem()
                         {
                             Name = "Unenroll from a course",
@@ -334,6 +340,12 @@ namespace studenten_voortgang_applicatie
                             Name = "Register attendance for a class",
                             Callback = teacherCourseController.RegisterAttendanceByCourse,
                             AvailableToRoles = new List<UserRoles> () { UserRoles.Teacher }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "List attendance for a class",
+                            Callback = teacherCourseController.DisplayAttendanceByCourse,
+                            AvailableToRoles = new List<UserRoles> () { UserRoles.Teacher }
                         }
                     }
                 }
@@ -366,7 +378,6 @@ namespace studenten_voortgang_applicatie
             Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 2 };
             school.Courses.Add(course2);
             course2.Enroll(student2);
-
             course2.Enroll(student1);
 
             student1.AddGrade(course1, 8.9f);
@@ -375,11 +386,12 @@ namespace studenten_voortgang_applicatie
             student1.AddGrade(course2, 8.2f);
             student1.AddGrade(course2, 7.3f);
 
-
-
             Teacher teacher1 = new Teacher() { LastName = "Docent", FirstName = "Piet" };
+            teacher1.Username = "teach";
+            teacher1.Password = "1234";
             school.Teachers.Add(teacher1);
             course1.Teacher = teacher1;
+            teacher1.Courses.Add(course1);
                  
             return school;
         }

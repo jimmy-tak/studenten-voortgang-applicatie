@@ -30,7 +30,7 @@ namespace studenten_voortgang_applicatie.Views
 
             lastName = GetStringInput("Last name", required);
             firstName = GetStringInput("First name", required);
-            dateOfBirth = GetDateTimeInput("Date of birth");
+            dateOfBirth = BaseView.GetDateTimeInput("Date of birth");
             email = GetStringInput("Email");
             street = GetStringInput("Street");
             postalCode = GetStringInput("Postal code");

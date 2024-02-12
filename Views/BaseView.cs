@@ -88,7 +88,24 @@ namespace studenten_voortgang_applicatie.Views
         }
 
         // get a datetime input
-        protected DateTime GetDateTimeInput(string text, bool required = false)
+        //protected DateTime GetDateTimeInput(string text, bool required = false)
+        //{
+        //    string input;
+        //    DateTime dateTime;
+        //    bool success;
+        //    do
+        //    {
+        //        Console.Write($"{text} (d-M-yyyy): ");
+        //        input = Console.ReadLine();
+        //        if (input == "" && required == false) return DateTime.MinValue; // so we can skip entering datetime
+        //        success = DateTime.TryParseExact(input, "d-M-yyyy", new CultureInfo("nl-NL"), DateTimeStyles.None, out dateTime);
+        //    }
+        //    while (!success);
+
+        //    return dateTime;
+        //}
+
+        internal static DateTime GetDateTimeInput(string text, bool required = false)
         {
             string input;
             DateTime dateTime;
@@ -104,5 +121,6 @@ namespace studenten_voortgang_applicatie.Views
 
             return dateTime;
         }
+
     }
 }

@@ -17,6 +17,7 @@ namespace studenten_voortgang_applicatie.Views
             {
                 Console.Clear();
                 Console.WriteLine($"{menu.Name}\n");
+                Debug.WriteLine(menu.MenuItems.Count);
 
                 foreach (MenuItem menuItem in menu.MenuItems)
                 {

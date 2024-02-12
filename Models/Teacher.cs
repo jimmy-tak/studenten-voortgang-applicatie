@@ -11,7 +11,7 @@ namespace studenten_voortgang_applicatie.Models
     internal class Teacher : Employee
     {
         // courses teacher is teaching
-        public HashSet<Course> Courses { get; private set; }
+        public HashSet<Course> Courses { get; private set; } = new HashSet<Course>();
 
         // a read only collection of all students the teacher teaches
         public ReadOnlyCollection<Student> Students
