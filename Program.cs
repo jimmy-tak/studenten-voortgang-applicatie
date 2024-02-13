@@ -25,7 +25,14 @@ namespace studenten_voortgang_applicatie
 
         public void Run()
         {
-            School school = CreateSampleData();
+            // load data
+            FileController fileController = new FileController();
+
+
+            School school  = fileController.LoadSchool();
+            CreateSampleData(school);
+
+
 
             Person loggedOnUser = new LoginController(school, new LoginView()).Authenticate();
 
@@ -37,8 +44,6 @@ namespace studenten_voortgang_applicatie
                 EnrollmentView enrollmentView = new EnrollmentView(studentView, courseView);
                 TeacherView teacherView = new TeacherView(courseView, studentView);
                 // create controllers
-                FileController fileController = new FileController();
-                fileController.LoadStudents();
                 SchoolController schoolController = new SchoolController(school, studentView, courseView, enrollmentView, teacherView, fileController);
                 // student and teacher controllers are only needed when student or teacher is logged on. there's probably a better way to do this
                 StudentCourseController studentCourseController = new StudentCourseController();
@@ -359,48 +364,48 @@ namespace studenten_voortgang_applicatie
 
         }
 
-        private School CreateSampleData()
+        private void CreateSampleData(School school)
         {
-            School school = new School("Curio", "25LX");
+           // School school = new School("Curio", "25LX");
 
             Employee employee1 = new Employee() { FirstName = "first", LastName = "last" };
             employee1.Username = "jimmy";
             employee1.Password = "1234"; // no try catch in sample data
             school.AddEmployee(employee1);
 
-            Student student1 = new Student() { LastName = "Student", FirstName = "Jan" };
-            student1.Username = "stud";
-            student1.Password = "1234";
-            school.Students.Add(student1);
+            //Student student1 = new Student() { LastName = "Student", FirstName = "Jan" };
+            //student1.Username = "stud";
+            //student1.Password = "1234";
+            //school.Students.Add(student1);
 
 
-            Student student2 = new Student() { LastName = "Student2", FirstName = "Jan" }; 
-            school.Students.Add(student2);
+            //Student student2 = new Student() { LastName = "Student2", FirstName = "Jan" }; 
+            //school.Students.Add(student2);
 
-            Course course1 = new Course() { Code = "NL", Description = "Dutch as a second language", Name = "Dutch", Seats = 10 };
-            school.Courses.Add(course1);
-            course1.Enroll(student1);
+            //Course course1 = new Course() { Code = "NL", Description = "Dutch as a second language", Name = "Dutch", Seats = 10 };
+            //school.Courses.Add(course1);
+            //course1.Enroll(student1);
             
 
-            Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 2 };
-            school.Courses.Add(course2);
-            course2.Enroll(student2);
-            course2.Enroll(student1);
+            //Course course2 = new Course() { Code = "M", Description = "Advanced math", Name = "Math", Seats = 2 };
+            //school.Courses.Add(course2);
+            //course2.Enroll(student2);
+            //course2.Enroll(student1);
 
-            student1.AddGrade(course1, 8.9f);
-            student1.AddGrade(course1, 4.9f);
-            student1.AddGrade(course2, 5.3f);
-            student1.AddGrade(course2, 8.2f);
-            student1.AddGrade(course2, 7.3f);
+            //student1.AddGrade(course1, 8.9f);
+            //student1.AddGrade(course1, 4.9f);
+            //student1.AddGrade(course2, 5.3f);
+            //student1.AddGrade(course2, 8.2f);
+            //student1.AddGrade(course2, 7.3f);
 
-            Teacher teacher1 = new Teacher() { LastName = "Docent", FirstName = "Piet" };
-            teacher1.Username = "teach";
-            teacher1.Password = "1234";
-            school.Teachers.Add(teacher1);
-            course1.Teacher = teacher1;
-            teacher1.Courses.Add(course1);
+            //Teacher teacher1 = new Teacher() { LastName = "Docent", FirstName = "Piet" };
+            //teacher1.Username = "teach";
+            //teacher1.Password = "1234";
+            //school.Teachers.Add(teacher1);
+            //course1.Teacher = teacher1;
+            //teacher1.Courses.Add(course1);
                  
-            return school;
+           // return school;
         }
     }
 }

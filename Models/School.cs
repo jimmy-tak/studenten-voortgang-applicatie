@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
@@ -11,13 +12,18 @@ namespace studenten_voortgang_applicatie.Models
         public string Name { get; set; }
         public string BrinNummer { get; set; }
 
-
+        [JsonIgnore]
         public HashSet<Employee> Employees { get; private set; }
         // teachers are employees, but its easier to keep them seperated
+        [JsonIgnore]
         public HashSet<Teacher> Teachers { get; private set; }
-        public HashSet<Student> Students { get; private set; }        
+        [JsonIgnore]
+        public HashSet<Student> Students { get; private set; }
+        [JsonIgnore]
         public HashSet<Parent> Parents { get; private set; }
+        [JsonIgnore]
         public HashSet<Course> Courses { get; private set; }
+        [JsonIgnore]
         public HashSet<Person> Users
         {
             get
@@ -32,10 +38,10 @@ namespace studenten_voortgang_applicatie.Models
         }
 
 
-        public School(string name, string brinNummer) 
+        public School() 
         {
-            Name = name;
-            BrinNummer = brinNummer;
+            //Name = name;
+            //BrinNummer = brinNummer;
             Employees = new HashSet<Employee>();
             Teachers = new HashSet<Teacher>();
             Students = new HashSet<Student>();

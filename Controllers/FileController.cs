@@ -16,9 +16,9 @@ namespace studenten_voortgang_applicatie.Controllers
     internal class FileController
     {
         private string _folderName = Environment.GetFolderPath(SpecialFolder.ApplicationData) + "\\studenten_voortgang_applicatie";
-        private string _schoolFile = "schools.json";
+        private string _schoolFileName = "schools.json";
         private string _studentFileName = "students.json";
-        private string _courseFile = "coures.json";
+        private string _courseFileName = "coures.json";
 
         private JsonSerializerOptions _options = new JsonSerializerOptions()
         {
@@ -46,12 +46,21 @@ namespace studenten_voortgang_applicatie.Controllers
             }            
         }
 
-        private void LoadSchool()
+        public School LoadSchool()
         {
-
+            string fileContent = String.Empty;
+            try
+            {
+                fileContent = File.ReadAllText(_folderName + "\\" + _schoolFileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading students from file. Reason: {ex.Message}");
+            }
+            return JsonSerializer.Deserialize<School>(fileContent);
         }
 
-        public void LoadStudents()
+        public IEnumerable<Student> LoadStudents()
         {
             string fileContent = String.Empty;
             try
@@ -62,7 +71,7 @@ namespace studenten_voortgang_applicatie.Controllers
             {
                 Console.WriteLine($"Error reading students from file. Reason: {ex.Message}");
             }
-            HashSet<Student> students = JsonSerializer.Deserialize<HashSet<Student>>(fileContent);
+            return JsonSerializer.Deserialize<HashSet<Student>>(fileContent);
         }
 
         public void WriteStudents(IEnumerable<Student> students)
