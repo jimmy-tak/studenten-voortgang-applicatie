@@ -9,7 +9,8 @@ namespace studenten_voortgang_applicatie.Models
     internal class Result
     {
 
-
+        // GUID is required to load objects from files
+        public Guid Guid { get; set; } = Guid.NewGuid();
         public Course Course { get; private set; }
         public float Grade { get; private set; }
 

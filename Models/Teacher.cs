@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace studenten_voortgang_applicatie.Models
@@ -11,9 +12,12 @@ namespace studenten_voortgang_applicatie.Models
     internal class Teacher : Employee
     {
         // courses teacher is teaching
+        [JsonIgnore]
         public HashSet<Course> Courses { get; private set; } = new HashSet<Course>();
 
         // a read only collection of all students the teacher teaches
+        [JsonIgnore]
+
         public ReadOnlyCollection<Student> Students
         {
             get
@@ -28,7 +32,7 @@ namespace studenten_voortgang_applicatie.Models
             }
         }
 
-    public Teacher() : base()
+        public Teacher() : base()
         {
             AddRole(UserRoles.Teacher);
         }

@@ -65,7 +65,7 @@ namespace studenten_voortgang_applicatie.Controllers
         {
             Student student = _studentView.AddStudent();
             _school.Students.Add(student);
-            _fileController.WriteStudents(_school.Students);
+            //_fileController.WriteStudents(_school.Students);
 
         }
 

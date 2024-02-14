@@ -18,6 +18,8 @@ namespace studenten_voortgang_applicatie.Controllers
         private string _folderName = Environment.GetFolderPath(SpecialFolder.ApplicationData) + "\\studenten_voortgang_applicatie";
         private string _schoolFileName = "schools.json";
         private string _studentFileName = "students.json";
+        private string _employeeFileName = "employees.json";
+        private string _teacherFileName = "teachers.json";
         private string _courseFileName = "coures.json";
 
         private JsonSerializerOptions _options = new JsonSerializerOptions()
@@ -46,6 +48,42 @@ namespace studenten_voortgang_applicatie.Controllers
             }            
         }
 
+        public void WriteSchool(School school)
+        {
+            try
+            {
+                File.WriteAllText(_folderName + "\\" + _schoolFileName, JsonSerializer.Serialize(school, _options));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing students to file. Reason: {ex.Message}");
+            }
+        }
+
+        public void WriteEmployees(IEnumerable<Employee> employees)
+        {
+            try
+            {
+                File.WriteAllText(_folderName + "\\" + _employeeFileName, JsonSerializer.Serialize(employees, _options));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing students to file. Reason: {ex.Message}");
+            }
+        }
+
+        public void WriteTeachers(IEnumerable<Teacher> teachers)
+        {
+            try
+            {
+                File.WriteAllText(_folderName + "\\" + _teacherFileName, JsonSerializer.Serialize(teachers, _options));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing students to file. Reason: {ex.Message}");
+            }
+        }
+
         public School LoadSchool()
         {
             string fileContent = String.Empty;
@@ -60,32 +98,60 @@ namespace studenten_voortgang_applicatie.Controllers
             return JsonSerializer.Deserialize<School>(fileContent);
         }
 
-        public IEnumerable<Student> LoadStudents()
+        public IEnumerable<Employee> LoadEmployees()
         {
             string fileContent = String.Empty;
             try
             {
-                fileContent = File.ReadAllText(_folderName + "\\" + _studentFileName);
+                fileContent = File.ReadAllText(_folderName + "\\" + _employeeFileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error reading students from file. Reason: {ex.Message}");
             }
-            return JsonSerializer.Deserialize<HashSet<Student>>(fileContent);
+            return JsonSerializer.Deserialize<HashSet<Employee>>(fileContent);
         }
 
-        public void WriteStudents(IEnumerable<Student> students)
+        public IEnumerable<Teacher> LoadTeachers()
         {
+            string fileContent = String.Empty;
             try
             {
-                File.WriteAllText(_folderName + "\\" + _studentFileName, JsonSerializer.Serialize(students, _options));
+                fileContent = File.ReadAllText(_folderName + "\\" + _teacherFileName);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error writing students to file. Reason: {ex.Message}");
+                Console.WriteLine($"Error reading students from file. Reason: {ex.Message}");
             }
+            return JsonSerializer.Deserialize<HashSet<Teacher>>(fileContent);
         }
-        
+
+        //public IEnumerable<Student> LoadStudents()
+        //{
+        //    string fileContent = String.Empty;
+        //    try
+        //    {
+        //        fileContent = File.ReadAllText(_folderName + "\\" + _studentFileName);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.WriteLine($"Error reading students from file. Reason: {ex.Message}");
+        //    }
+        //    return JsonSerializer.Deserialize<HashSet<Student>>(fileContent);
+        //}
+
+        //public void WriteStudents(IEnumerable<Student> students)
+        //{
+        //    try
+        //    {
+        //        File.WriteAllText(_folderName + "\\" + _studentFileName, JsonSerializer.Serialize(students, _options));
+        //    }
+        //    catch(Exception ex) 
+        //    {
+        //        Console.WriteLine($"Error writing students to file. Reason: {ex.Message}");
+        //    }
+        //}
+
 
     }
 }

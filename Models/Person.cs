@@ -1,8 +1,11 @@
 ﻿using studenten_voortgang_applicatie.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -13,6 +16,9 @@ namespace studenten_voortgang_applicatie.Models
 
     internal class Person
     {
+        // GUID is required to load objects from files
+        public Guid Guid { get; set; } = Guid.NewGuid();
+
         // basic personal information
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -45,6 +51,7 @@ namespace studenten_voortgang_applicatie.Models
                 }
                 else if(_allUsernames.Contains(value))
                 {
+                    Debug.WriteLine(value);
                     throw new ArgumentException("Username must be unique");
                 }
                 else
@@ -69,6 +76,8 @@ namespace studenten_voortgang_applicatie.Models
                     _password = value;
                 }
             }
+            // password needs to be able to get to save it to a file. it should be hashed
+            get { return _password; } 
         }        
         private List<UserRoles> _roles;
         public List<UserRoles> Roles { get => _roles; }
@@ -78,12 +87,6 @@ namespace studenten_voortgang_applicatie.Models
             _roles = new List<UserRoles>();
         }
 
-        //public Person(string firstName, string lastName) : this()
-        //{
-        //    FirstName = firstName;
-        //    LastName = lastName;
-
-        //}
 
         public bool HasAccount()
         {
@@ -106,4 +109,9 @@ namespace studenten_voortgang_applicatie.Models
 
 
     }
+
+
+
+
+    
 }
