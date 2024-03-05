@@ -1,4 +1,7 @@
 # studenten-voortgang-applicatie
+
+A toy project to learn C#
+
 ## Architectuur
 Ik heb geprobeerd de applicatie te bouwen volgens het Model - View - Controller design pattern.
 
